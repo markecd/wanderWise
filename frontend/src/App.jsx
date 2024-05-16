@@ -7,20 +7,25 @@ import Register from './components/Register';
 import Home from './components/Home';
 import Vprasalnik from './components/Vprasalnik';
 import FrontPage from './pages/FrontPage';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
 import Login from './components/Login';
 
-
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/vprasalnik" element={<Vprasalnik />} />
-        <Route path="/frontpage" element={<FrontPage />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+	return (
+	<Router>
+		<div>
+			<Navbar />	
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/register" element={<Register />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/vprasalnik" element={<Vprasalnik />} />
+				<Route path="/frontpage" element={<FrontPage />} />
+			</Routes>
+			<Footer />
+		</div>
+	</Router>
   );
 }
 

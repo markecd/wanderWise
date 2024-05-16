@@ -1,4 +1,3 @@
-
 function FrontPage() {
     return (
         <div>
