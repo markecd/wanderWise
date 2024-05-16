@@ -1,5 +1,5 @@
 /* Add a parent container to center content */
-.register-page {
+.register-page, .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,7 +11,7 @@
     box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
   }
   
-  .register-container {
+  .register-container, .login-container {
     font-family: Arial, sans-serif;
     background-color: #ffffff;
     padding: 20px;
