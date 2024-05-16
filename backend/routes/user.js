@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-var knex = require('../dbConn.js');
+const db = require('../dbConn')
 
 router.get('/getAll', async (req, res) => {
-    const users = await knex('user')
-
+    const users = await db.collection('user').get();
+    
     res.status(200).json(users);
 })
 
