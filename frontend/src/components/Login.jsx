@@ -82,7 +82,7 @@ async function loginUser(userData) {
         credentials: 'include'
     }).then(async response => {
         if (response.ok) {
-            window.location.href = '/';
+            window.location.href = '/vprasalnik';
             return response.json()
         }
     }).catch(error => {
