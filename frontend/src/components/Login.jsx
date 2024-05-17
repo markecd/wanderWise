@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import '../assets/styles/Register.css';
 import { useNavigate } from 'react-router-dom';
-
+import{ ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -33,8 +34,6 @@ function Login() {
         }
 
         loginUser(userData);
-
-        console.log('Form data submitted:', formData);
     };
 
     return (
@@ -68,6 +67,7 @@ function Login() {
                 </form>
                 <button className="btn login-btn" onClick={handleRegisterClick}>Register</button>
             </div>
+            <ToastContainer />
         </div>
     );
 }
@@ -81,9 +81,16 @@ async function loginUser(userData) {
         body: JSON.stringify(userData),
         credentials: 'include'
     }).then(async response => {
+        let serverResposnse = await response.json();
         if (response.ok) {
-            window.location.href = '/vprasalnik';
-            return response.json()
+            toast.success("Signed in successfully!", {autoClose: 1500});
+            setTimeout(() => {
+              window.location.href = '/vprasalnik';
+            }, 2000);
+            return serverResposnse
+        } else{
+            toast.error(serverResposnse.message);
+            debugger
         }
     }).catch(error => {
         console.error('Error:', error);
