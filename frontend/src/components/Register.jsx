@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../assets/styles/Register.css';
 import { useNavigate } from 'react-router-dom';
+import{ ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -28,24 +30,23 @@ function Register() {
     let dataOk = true;
 
     if (!/^[A-Za-z]+$/.test(formData.name)) {
-      console.log("Name should contain only upper and lower case letters")//toast zraven tega polja
+      toast.error("Name should contain only upper and lower case letters!");
       dataOk = false;
     }
 
     if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[\d!@#$%^&*\-_]).{6,}/.test(formData.password)) {
-      console.log("Password must be at least 6 characters long and contain at least 1 uppercase letter, 1 lowercase letter, and 1 number or symbol");
+      toast.error("Password must be at least 6 characters long and contain at least 1 uppercase letter, 1 lowercase letter, and 1 number or symbol!");
       dataOk = false;
     }
 
     let usernameExists = await checkUsername(formData.username);
 
     if (usernameExists) {
-      console.log("Username already exists!");
+      toast.error("Username already exists!");
       dataOk = false;
     };
 
     if (!dataOk) {
-      console.log("ni šlo skoz")
       return;
     } else {
       let userData = {
@@ -55,10 +56,6 @@ function Register() {
       }
       registerUser(userData);
     }
-
-
-
-    console.log('Form data submitted:', formData);
   };
 
   return (
@@ -103,6 +100,7 @@ function Register() {
         </form>
         <button className="btn login-btn" onClick={handleLoginClick}>Log In</button>
       </div>
+      <ToastContainer />
     </div>
   );
 }
@@ -116,7 +114,10 @@ async function registerUser(userData) {
     body: JSON.stringify(userData),
   }).then(async response => {
     if (response.ok) {
-      window.location.href = '/login';
+      toast.success("Registered successfully!", {autoClose: 1500});
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
       return response.json()
     }
   }).catch(error => {
