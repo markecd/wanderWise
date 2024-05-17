@@ -1,8 +1,7 @@
 function FrontPage() {
     return (
-        <div>
-            
-        </div>
+        <>
+        </>
     )
 }
 
