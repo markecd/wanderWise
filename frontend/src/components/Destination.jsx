@@ -3,10 +3,40 @@ import '../assets/styles/Destination.css';
 
 
 
-function Destination() {
+function Destination({filterCriteria}) {
     const [destinacije, setDestinacije] = useState([]);
 
     useEffect(() => {
+        const fetchDestinations = async () => {
+            try {
+                const query = new URLSearchParams({
+                    continent: filterCriteria.continent.join(','),
+                    priceRange: filterCriteria['price-range'],
+                    climate: filterCriteria.climate.join(',')
+                }).toString();
+
+                let response;
+
+                if(filterCriteria.continent.length == 0 && filterCriteria['price-range'] == "350" && filterCriteria.climate.length == 0){
+                    debugger
+                    response = await fetch ('http://localhost:6500/destinacija/getAll');
+                }
+                else{
+                    debugger
+                    response = await fetch(`http://localhost:6500/destinacija/getFiltered?${query}`);
+                }
+                if (!response.ok) {
+                    throw new Error('Failed to fetch destinations');
+                }
+                const data = await response.json();
+                setDestinacije(data);
+            } catch (error) {
+                console.error('Error fetching destinations:', error);
+            }
+        };
+        fetchDestinations();
+    }, [filterCriteria]);
+    /*useEffect(() => {
         const pridobiDestinacije = async () => {
             try {
                 const response = await fetch('http://localhost:6500/destinacija/getAll')
@@ -22,7 +52,7 @@ function Destination() {
             }
         }
         pridobiDestinacije();
-    }, []);
+    }, []);*/
 
     return (
         <div className="destinations-grid">

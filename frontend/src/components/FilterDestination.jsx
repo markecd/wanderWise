@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import '../assets/styles/Filter.css';
 
-function FilterDestination() {
-    const [formData, setFormData] = useState({
-        continent: [],
-        'price-range': '10000',
-        climate: []
-    });
+function FilterDestination({ initialFormData, onSubmit }) {
+
+    const [formData, setFormData] = useState(initialFormData);
 
     const handleCheckboxChange = (e) => {
         const { name, value, checked } = e.target;
@@ -26,9 +23,9 @@ function FilterDestination() {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
+        onSubmit(formData);
     };
 
     return (
@@ -37,7 +34,7 @@ function FilterDestination() {
                 <div className="form-group">
                     <label htmlFor="continent">Continent:</label>
                     <div>
-                        {['Africa', 'Asia', 'Australia', 'Europe', 'Latin America', 'North America'].map(continentInstance => (
+                        {['Africa', 'Asia', 'Australia', 'Europe', 'South America', 'North America'].map(continentInstance => (
                             <label key={continentInstance}>
                                 <input
                                     type="checkbox"
@@ -57,11 +54,12 @@ function FilterDestination() {
                         type="range"
                         id="price-range"
                         min="0"
-                        max="10000"
+                        max="350"
                         name="price-range"
                         value={formData['price-range']}
                         onChange={handleChange}
                     />
+                    {formData['price-range']}
                 </div>
                 <div className="form-group">
                     <label htmlFor="climate">Climate:</label>
@@ -80,7 +78,7 @@ function FilterDestination() {
                         ))}
                     </div>
                 </div>
-                <button type="submit" className="btn">Register</button>
+                <button type="submit" className="btn">Filter</button>
             </form>
         </div>
     );
