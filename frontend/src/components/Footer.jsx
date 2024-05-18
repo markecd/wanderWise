@@ -4,7 +4,7 @@ import '../assets/styles/Footer.css';
 function Footer() {
 	return (
 		<div className="footer">
-			<p>© Praktikum 2024</p>
+			<h2 className='footer-text'>© Praktikum 2024</h2>
 		</div>
 	);
 }
