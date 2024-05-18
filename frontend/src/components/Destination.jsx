@@ -15,6 +15,7 @@ function Destination() {
                 }
                 const data = await response.json();
                 setDestinacije(data);
+                debugger
             }
             catch (error) {
                 console.error('Error pri pridobivanju destinacij:' + error);
@@ -24,16 +25,14 @@ function Destination() {
     }, []);
 
     return (
-        <>
+        <div className="destinations-grid">
             {destinacije.map(destinacija => (
                 <div key={destinacija.id} className='destination-container'>
-                <h3 className='destination-name'>{destinacija.name}</h3>
-                SLIKA   
-                
-            </div>
-            ))
-            }
-        </>
+                    <img src={destinacija.picture_url} alt={destinacija.name} className="destination-image" />
+                    <h3 className='destination-name'>{destinacija.destination_name + ", " + destinacija.country}</h3>
+                </div>
+            ))}
+        </div>
     )
 }
 
