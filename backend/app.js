@@ -6,6 +6,7 @@ const app = express();
 
 const glavniRouter = require('./routes/index')
 const userRouter = require('./routes/user')
+const destinacijaRouter = require('./routes/destinacija')
 
 app.use(cors({
     origin: 'http://localhost:5173', 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', glavniRouter);
 app.use('/user', userRouter);
+app.use('/destinacija', destinacijaRouter);
 
 app.get('/', function(req, res){
     res.send("Server se odziva.");

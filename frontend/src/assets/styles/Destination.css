@@ -1,0 +1,19 @@
+.destination-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color:white;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-top: 8px solid #809848;
+    margin: 30px;
+    
+}
+
+.destination-name {
+    color: #2E0014;
+    margin-bottom: auto; 
+}
+

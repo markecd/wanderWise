@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(0, 0, 0, 0.87);
-  background-color: #ffffff;
+  background-color: #B0CA87;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -30,9 +30,6 @@ body {
   min-height: 100vh;
 }
 
-
-
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -49,9 +46,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
