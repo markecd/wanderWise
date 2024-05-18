@@ -1,19 +1,36 @@
+.destinations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ensure there are 3 columns */
+    gap: 30px;
+    padding: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .destination-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    background-color:white;
-    padding-bottom: 25px;
-    padding-left: 25px;
-    padding-right: 25px;
-    border-top: 8px solid #809848;
-    margin: 30px;
-    
+    background-color: #ebfbcb; /* Set background to white */
+    padding: 25px;
+    box-sizing: border-box;
+    width: 100%; /* Ensure each container takes up full width of its grid column */
+    height: auto; /* Adjust height to be flexible */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    border-radius: 8px; /* Optional: Add rounded corners */
 }
 
 .destination-name {
     color: #2E0014;
-    margin-bottom: auto; 
+    margin: 10px 0; /* Add some margin to separate from the image */
+    text-align: center;
+    font-size: 1.5em; /* Increase font size for better readability */
 }
 
+.destination-image {
+    width: 100%;
+    height: 200px; /* Fixed height for all images */
+    object-fit: cover; /* Ensure the image covers the entire area */
+    border-radius: 8px; /* Optional: Add rounded corners */
+}
