@@ -20,6 +20,7 @@ function FrontPage() {
         <div className="frontpage">
             <Navbar />
             <div className="main-content">
+
                 <div className="filter-container">
                     <FilterDestination
                         initialFormData={filterCriteria}
