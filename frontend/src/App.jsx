@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Vprasalnik from './components/Vprasalnik';
 import FrontPage from './pages/FrontPage';
 import Login from './components/Login';
+import PlanPage from './pages/PlanPage';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/vprasalnik" element={<Vprasalnik />} />
         <Route path="/frontpage" element={<FrontPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/planpage/:id" element={<PlanPage />}/>
       </Routes>
     </Router>
   );

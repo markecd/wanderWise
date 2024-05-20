@@ -1,0 +1,23 @@
+
+.plan-grid {
+    flex: 1; 
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.plan-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 25px;
+    box-sizing: border-box;
+    width: 420px; 
+    height: 306px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    border-radius: 8px;
+}
