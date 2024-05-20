@@ -5,8 +5,8 @@ const db = require('../dbConn')
 router.get('/getAll', async (req, res) => {
     try {
         const destinacijaSnapshot = await db.collection('destinations').get();
-        const destinacije = destinacijaSnapshot.docs.map(doc => doc.data());
-
+        const destinacije = destinacijaSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log(destinacije);
         res.status(200).json(destinacije);
     } catch (error) {
         console.error("Error getting users: ", error);
@@ -24,7 +24,7 @@ router.get('/getFiltered', async (req, res) => {
 
 
     const destinacijeSnapshot = await db.collection('destinations').get();
-    const allDestinations = destinacijeSnapshot.docs.map(doc => doc.data());
+    const allDestinations = destinacijeSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     const filteredDestinations = allDestinations.filter(dest => {
         const matchesContinent = continentArray.length === 0 || continentArray.includes(dest.continent);

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import '../assets/styles/Destination.css';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Destination({filterCriteria}) {
     const [destinacije, setDestinacije] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchDestinations = async () => {
@@ -30,6 +31,7 @@ function Destination({filterCriteria}) {
                 }
                 const data = await response.json();
                 setDestinacije(data);
+                console.log(destinacije);
             } catch (error) {
                 console.error('Error fetching destinations:', error);
             }
@@ -54,11 +56,19 @@ function Destination({filterCriteria}) {
         pridobiDestinacije();
     }, []);*/
 
+    console.log(destinacije);
+
+    const handleClick = (id) => {
+        navigate(`/planpage/${id}`);
+        debugger
+    }
+
     return (
+
         <div className="destinations-grid">
             {destinacije.map(destinacija => (
-                <div key={destinacija.id} className='destination-container'>
-                    <img src={destinacija.picture_url} alt={destinacija.name} className="destination-image" />
+                <div key={destinacija.destination_name} className='destination-container'>
+                    <img onClick={() => {debugger;handleClick(destinacija.id)}}  src={destinacija.picture_url} alt={destinacija.destination_name} className="destination-image" />
                     <h3 className='destination-name'>{destinacija.destination_name + ", " + destinacija.country}</h3>
                 </div>
             ))}

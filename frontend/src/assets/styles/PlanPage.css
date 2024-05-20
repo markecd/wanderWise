@@ -1,0 +1,15 @@
+.planpage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    padding-top: 100px; 
+    padding-bottom: 60px; 
+    width: 100%;
+    box-sizing: border-box;
+}
