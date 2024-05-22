@@ -13,12 +13,13 @@ function Destination({filterCriteria}) {
                 const query = new URLSearchParams({
                     continent: filterCriteria.continent.join(','),
                     priceRange: filterCriteria['price-range'],
-                    climate: filterCriteria.climate.join(',')
+                    climate: filterCriteria.climate.join(','),
+					searchCriteria: filterCriteria.searchCriteria
                 }).toString();
                 
                 let response;
 
-                if(filterCriteria.continent.length === 0 && filterCriteria['price-range'] === "350" && filterCriteria.climate.length === 0){
+                if(!filterCriteria.searchCriteria && filterCriteria.continent.length === 0 && filterCriteria['price-range'] === "350" && filterCriteria.climate.length === 0){
                     response = await fetch ('http://localhost:6500/destinacija/getAll');
                 }
                 else{
