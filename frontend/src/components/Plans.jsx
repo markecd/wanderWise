@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 function Plans({id}) {
     
     const [plans, setPlans] = useState([]);
+    
 
 
     useEffect(() => {
@@ -16,7 +17,7 @@ function Plans({id}) {
                 }
                 const data = await response.json();
                 setPlans(data);
-                console.log(data);
+                
             } catch (error) {
                 console.error('Error fetching plans:' + error);
             }
@@ -28,7 +29,7 @@ function Plans({id}) {
     [id]  
     )
 
-    console.log(id);
+   
   
 
     return (
@@ -37,6 +38,7 @@ function Plans({id}) {
             {plans.map(plan => (
                 <div key={plan.id} className='plan-container'>
                     <h3 className="plan-name">{plan.plan_name}</h3>
+                    SLIDESHOW SLIK
                     <p className="plan-description">{plan.plan_description}</p>
                 </div>
             ))}

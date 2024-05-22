@@ -24,4 +24,26 @@ router.get('/getNacrti', async (req,res) => {
     }
 })
 
+router.post('/createPlan', async(req,res) => {
+    
+    try {
+        const { name, description, starting_point, end_point } = req.body;
+
+     
+                await db.collection('plans').add({
+                    'plan_name': name,
+                    'plan_description': description,
+                    'starting_point': starting_point,
+                    'end_point': end_point
+                })
+
+                res.status(200).json("plan was inserted");
+
+    }
+    catch (error) {
+        console.error("Error: ", error);
+        res.status(500).send("Error");
+    }
+})
+
 module.exports = router;

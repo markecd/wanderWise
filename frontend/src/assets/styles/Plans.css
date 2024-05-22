@@ -21,3 +21,16 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     border-radius: 8px;
 }
+
+.btn-nacrt {
+    margin-top:70px;
+    width:10%
+}
+
+.btn-nacrt {
+    background-color: #442220;
+}
+
+.btn-nacrt:hover {
+    background-color: #2E0014;
+  }

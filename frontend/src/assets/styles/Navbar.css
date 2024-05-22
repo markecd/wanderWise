@@ -9,21 +9,21 @@
     align-items: center;
     background-color: #809848;
     padding: 0;
-    border-bottom: 8px solid #442220;
+
     z-index:1000;
 }
 
 .logo {
-    width: 140px;
-    height: 140px;
+    width: 90px;
+    height: 90px;
     padding: 0px;
     padding-left: 10px;
     margin: 0px;
 }
 
 .user-logo {
-    width: 40px;
-    height: 40px;
+    width: 17px;
+    height: 17px;
     padding-right: 30px;
 }
 
@@ -32,8 +32,8 @@
 }
 
 .logout-logo {
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
     padding-right: 30px;
 }
 
