@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import '../assets/styles/Plans.css';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-function Plans({id}) {
-    
+function Plans({ id }) {
+
     const [plans, setPlans] = useState([]);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -16,7 +17,6 @@ function Plans({id}) {
                 }
                 const data = await response.json();
                 setPlans(data);
-                console.log(data);
             } catch (error) {
                 console.error('Error fetching plans:' + error);
             }
@@ -25,23 +25,27 @@ function Plans({id}) {
             fetchPlans();
         }
     },
-    [id]  
+        [id]
     )
 
-    console.log(id);
-  
+    const handleClick = (id) => {
+        navigate(`/plan/${id}`);
+        debugger
+    }
+
 
     return (
-        
-            <div className="plan-grid">
+
+        <div className="plan-grid">
             {plans.map(plan => (
                 <div key={plan.id} className='plan-container'>
-                    <h3 className="plan-name">{plan.plan_name}</h3>
-                    <p className="plan-description">{plan.plan_description}</p>
+                    <h3 onClick={() => { handleClick(plan.id) }} className="plan-name">{plan.plan_name}</h3>
+                    {plan.plan_images && <img onClick={() => { handleClick(plan.id) }} src={plan.plan_images[3]} alt={plan.plan_name} className="plan-image" />}
+                    {!plan.plan_images && <p>{plan.plan_description}</p>}
                 </div>
             ))}
         </div>
-    
+
     )
 }
 

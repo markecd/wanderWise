@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../dbConn')
+const { db, bucket } = require('../dbConn')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const secretKey = 'secret-key'; //TO DO enviornment variable
@@ -78,6 +78,7 @@ router.post('/loginUser', async (req, res) => {
 
         const snapshot = await db.collection('user').where('username', '==', username).get();
         const userId = snapshot.docs[0].id;
+
 
         const token = jwt.sign({id: userId}, secretKey, { expiresIn: '48h'});
         res.cookie('auth_token', token, {httpOnly: true, secure: false});

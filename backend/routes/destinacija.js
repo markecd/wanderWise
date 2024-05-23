@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../dbConn')
+const { db, bucket } = require('../dbConn');
 
 router.get('/getAll', async (req, res) => {
     try {
         const destinacijaSnapshot = await db.collection('destinations').get();
         const destinacije = destinacijaSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log(destinacije);
         res.status(200).json(destinacije);
     } catch (error) {
         console.error("Error getting users: ", error);

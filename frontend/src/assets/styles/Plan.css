@@ -1,0 +1,50 @@
+.plan {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.plan-content {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  padding-top: 100px; 
+  gap: 20px;
+}
+
+.plan-data-container {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.plan-map {
+  flex: 1;
+  height: 500px;
+  min-width: 400px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.plan-name {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.plan-description {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .plan-content {
+      flex-direction: column;
+  }
+
+  .plan-map {
+      height: 300px;
+  }
+}

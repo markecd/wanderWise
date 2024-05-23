@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../dbConn')
+const { db, bucket } = require('../dbConn')
+const { v4: uuidv4 } = require('uuid');
+
 
 router.get('/getNacrti', async (req,res) => {
     const {id} = req.query;
@@ -23,5 +25,67 @@ router.get('/getNacrti', async (req,res) => {
         res.status(500).send("Error pri pridobivanju nacrtov");
     }
 })
+
+router.get('/getPlanById', async (req, res) => {
+    try{
+        const {planId} = req.query;
+        const snapshot = await db.collection('plans').doc(planId).get();
+        res.status(200).json(snapshot.data())
+    }catch (error) {
+        console.error("Error pri pridobivanju nacrtov: ", error);
+        res.status(500).send("Error pri pridobivanju nacrtov");
+    }
+})
+
+router.get('/mapData', async (req, res) => {
+    try {
+        const { start, end, intermediate } = req.query;
+        const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&waypoints=optimize:true|${intermediate}&key=AIzaSyCyi4kkM6KCwT9gCNvdh8fTNqASKaeOnfI`);
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching directions' });
+    }
+})
+
+router.post('/upload/:planId', async (req, res) => {
+    try {
+        const url = await uploadImage(req.file, req.params.planId);
+        res.status(200).send({ url });
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+});
+
+const uploadImage = async (file, planId) => {
+    const fileName = `${uuidv4()}_${file.originalname}`;
+    const fileUpload = bucket.file(fileName);
+
+    const blobStream = fileUpload.createWriteStream({
+        metadata: {
+            contentType: file.mimetype,
+        }
+    });
+
+    return new Promise((resolve, reject) => {
+        blobStream.on('error', (error) => {
+            reject('Something is wrong! Unable to upload at the moment.');
+        });
+
+        blobStream.on('finish', async () => {
+            const url = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
+            try{
+                await db.collection('plans').doc(planId).update({
+                    plan_images: firebase.firestore.FieldValue.arrayUnion(url)
+                });
+                resolve(url);
+            } catch(error){
+                reject(error);
+            }
+        });
+
+        blobStream.end(file.buffer);
+    })
+}
 
 module.exports = router;

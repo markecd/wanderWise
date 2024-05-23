@@ -1,5 +1,7 @@
 const firebase = require('firebase/app');
 require('firebase/firestore');
+const admin = require('firebase-admin');
+const serviceAccount = require('./wanderwisedb-firebase-adminsdk-gz1zt-f9c1384928.json');
 
 const firebaseConfig = {
     apiKey: "AIzaSyBQtbqBpBVc6BZkxTWb3FtBNngiizgdqOQ",
@@ -15,4 +17,11 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-module.exports = db;
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: firebaseConfig.storageBucket
+});
+
+const bucket = admin.storage().bucket();
+
+module.exports = { db, bucket };

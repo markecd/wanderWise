@@ -29,7 +29,6 @@ function Destination({filterCriteria}) {
                 }
                 const data = await response.json();
                 setDestinacije(data);
-                console.log(destinacije);
             } catch (error) {
                 console.error('Error fetching destinations:', error);
             }
@@ -37,11 +36,8 @@ function Destination({filterCriteria}) {
         fetchDestinations();
     }, [filterCriteria]);
 
-    console.log(destinacije);
-
     const handleClick = (id) => {
         navigate(`/planpage/${id}`);
-        debugger
     }
 
     return (
@@ -49,7 +45,7 @@ function Destination({filterCriteria}) {
         <div className="destinations-grid">
             {destinacije.map(destinacija => (
                 <div key={destinacija.destination_name} className='destination-container'>
-                    <img onClick={() => {debugger;handleClick(destinacija.id)}}  src={destinacija.picture_url} alt={destinacija.destination_name} className="destination-image" />
+                    <img onClick={() => {handleClick(destinacija.id)}}  src={destinacija.picture_url} alt={destinacija.destination_name} className="destination-image" />
                     <h3 className='destination-name'>{destinacija.destination_name + ", " + destinacija.country}</h3>
                 </div>
             ))}
