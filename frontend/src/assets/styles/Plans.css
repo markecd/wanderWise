@@ -39,3 +39,12 @@
     margin-top: 5px;
 }
 
+.btn-nacrt {
+    margin-top:70px;
+    width:10%;
+    background-color: #442220;
+}
+
+.btn-nacrt:hover {
+    background-color: #2E0014;
+  }
