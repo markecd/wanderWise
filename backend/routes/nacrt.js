@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { db, bucket } = require('../dbConn')
 const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
+
+
+const apiKey = process.env.API_KEY;
+
+
 
 
 router.get('/getNacrti', async (req,res) => {
@@ -40,7 +46,7 @@ router.get('/getPlanById', async (req, res) => {
 router.get('/mapData', async (req, res) => {
     try {
         const { start, end, intermediate } = req.query;
-        const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&waypoints=optimize:true|${intermediate}&key=AIzaSyCyi4kkM6KCwT9gCNvdh8fTNqASKaeOnfI`);
+        const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&waypoints=optimize:true|${intermediate}&key=${apiKey}`);
         const data = await response.json();
         res.json(data);
     } catch (error) {
