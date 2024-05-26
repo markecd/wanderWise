@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import '../assets/styles/Plans.css';
 import { useParams, useNavigate } from "react-router-dom";
 
-function Plans({ id }) {
+function Plans({ id, factor }) {
 
     const [plans, setPlans] = useState([]);
     const navigate = useNavigate();
@@ -11,7 +11,12 @@ function Plans({ id }) {
     useEffect(() => {
         const fetchPlans = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/nacrt/getNacrti?id=${id}`);
+                let response;
+                if(factor == "destination"){
+                    response = await fetch(`http://localhost:6500/nacrt/getNacrti?id=${id}`);
+                } else{
+                    response = await fetch(`http://localhost:6500/nacrt/getNacrtiByUser?id=${id}`);
+                }
                 if (!response.ok) {
                     throw new Error('Error fetching plans');
                 }
@@ -30,7 +35,6 @@ function Plans({ id }) {
 
     const handleClick = (id) => {
         navigate(`/plan/${id}`);
-        debugger
     }
 
 

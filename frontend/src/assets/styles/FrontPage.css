@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: row;
     flex: 1;
-    padding-top: 50px; 
+    padding-top: 100px; 
     padding-bottom: 60px; 
     width: 100%;
     box-sizing: border-box;
@@ -69,14 +69,14 @@
 
 .search-bar {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   padding: 10px;
-  margin-top: 100px;
+  margin-top: 5px;
 }
 
 .search-bar input[type="text"] {
-  width: 300px;
+  width: 260px;
   padding: 10px;
   font-size: 1em;
   border: 2px solid #ccc;
@@ -89,7 +89,7 @@
   font-size: 1em;
   border: 2px solid #ccc;
   border-left: none;
-  background-color: #007bff;
+  background-color: #442220;
   color: white;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
@@ -97,5 +97,10 @@
 }
 
 .search-bar button:hover {
-  background-color: #0056b3;
+  background-color: #2E0014;
+}
+
+.searchbar-icon {
+  width: 60px;
+  height: 60px;
 }

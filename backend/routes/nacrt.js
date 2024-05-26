@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { db, bucket } = require('../dbConn')
 const { v4: uuidv4 } = require('uuid');
-require('dotenv').config();
-
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
 const apiKey = process.env.API_KEY;
 
@@ -31,6 +31,30 @@ router.get('/getNacrti', async (req,res) => {
         res.status(500).send("Error pri pridobivanju nacrtov");
     }
 })
+
+router.get('/getNacrtiByUser', async (req,res) => {
+    const {id} = req.query;
+
+    if (!id) {
+        throw new Error('Ni ID-ja userja')
+    }
+
+    try {
+        const snapshot = await db.collection('plans')
+        .where('userid', '==', id)
+        .get();
+
+        const nacrti = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        res.status(200).json(nacrti);
+    
+    }
+    catch (error) {
+        console.error("Error pri pridobivanju nacrtov: ", error);
+        res.status(500).send("Error pri pridobivanju nacrtov");
+    }
+})
+
+
 
 router.get('/getPlanById', async (req, res) => {
     try{

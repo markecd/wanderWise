@@ -10,6 +10,7 @@ import FrontPage from './pages/FrontPage';
 import Login from './components/Login';
 import PlanPage from './pages/PlanPage';
 import Plan from './pages/Plan';
+import UserPage from './pages/UserPage';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/planpage/:id" element={<PlanPage />}/>
         <Route path="/plan/:id" element={<Plan />}/>
+        <Route path="/user/:id" element={<UserPage />}/>
       </Routes>
     </Router>
   );

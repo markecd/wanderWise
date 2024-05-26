@@ -3,10 +3,8 @@ import Modal from 'react-modal';
 import '../assets/styles/ModalForm.css';
 import { toast } from 'react-toastify'; 
 import AutocompleteInput from './AutocompleteInput';
-require('dotenv').config();
-const apiKey = process.env.VITE_GOOGLE_MAPS_API_KEY;
 
-
+const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 Modal.setAppElement('#root');
 
 
@@ -51,6 +49,8 @@ const initialState = {
 async function getCoordinates(destination) {
 
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(destination)}&key=${apiKey}`;
+
+    console.log(url)
 
     try {
         const response = await fetch(url);

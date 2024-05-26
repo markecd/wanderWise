@@ -25,7 +25,7 @@ function PlanPage() {
             <div>
                 <p>Available plans for {id}</p>
                 <button className="btn-nacrt" onClick={openModal}>Dodaj</button>
-                <Plans id={id} />
+                <Plans id={id} factor="destination" />
                 <Forum />
             </div>
             <Footer />
