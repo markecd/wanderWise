@@ -27,14 +27,17 @@ router.get('/getNacrti', async (req,res) => {
 router.post('/createPlan', async(req,res) => {
     
     try {
-        const { name, description, starting_point, end_point } = req.body;
+        const { destinationId, planName, planDescription, startingPoint, endPoint, intermediatePoints, userId } = req.body;
 
      
                 await db.collection('plans').add({
-                    'plan_name': name,
-                    'plan_description': description,
-                    'starting_point': starting_point,
-                    'end_point': end_point
+                    'destinationid': destinationId,
+                    'plan_name': planName,
+                    'plan_description': planDescription,
+                    'starting_point': startingPoint,
+                    'end_point': endPoint,
+                    'userid': userId,
+                    'intermediate_points': intermediatePoints
                 })
 
                 res.status(200).json("plan was inserted");
