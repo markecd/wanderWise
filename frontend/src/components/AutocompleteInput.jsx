@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-function AutocompleteInput({ value, onChange}) {
+function AutocompleteInput({ value, onChange }) {
     const inputRef = useRef(null);
     const [inputValue, setInputValue] = useState(value);
+
+    useEffect(() => {
+        setInputValue(value); 
+    }, [value]);
 
     useEffect(() => {
         if (!window.google) return;
@@ -18,14 +22,15 @@ function AutocompleteInput({ value, onChange}) {
                     lat: place.geometry.location.lat(),
                     lng: place.geometry.location.lng()
                 };
-                
+                setInputValue(place.formatted_address);
+                onChange(place.formatted_address);
             }
         });
 
         return () => {
             window.google.maps.event.clearInstanceListeners(autocomplete);
         };
-    }, []);
+    }, [onChange]);
 
     const handleChange = (e) => {
         setInputValue(e.target.value);

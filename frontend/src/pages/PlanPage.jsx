@@ -29,7 +29,7 @@ function PlanPage() {
                 <Forum />
             </div>
             <Footer />
-            <ModalForm isOpen={modalIsOpen} onRequestClose={closeModal} />
+            <ModalForm id={id} isOpen={modalIsOpen} onRequestClose={closeModal} />
         </div>
     );
 }

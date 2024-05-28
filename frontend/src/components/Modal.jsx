@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import '../assets/styles/ModalForm.css';
 import { toast } from 'react-toastify'; 
 import AutocompleteInput from './AutocompleteInput';
 
 Modal.setAppElement('#root');
-
-
-
 
 async function createPlan(planData) {
     try {
@@ -38,11 +35,13 @@ async function createPlan(planData) {
 }
 
 const initialState = {
+    destinationId: 0,
     name: '',
     description: '',
     startingPoint: '',
     endPoint: '',
-    intermediatePoints: ['']
+    intermediatePoints: [''],
+    userId: 0
 }
 
 async function getCoordinates(destination) {
@@ -68,28 +67,51 @@ async function getCoordinates(destination) {
     }
 }
 
-function ModalForm({ isOpen, onRequestClose }) {
+function ModalForm({ id, isOpen, onRequestClose }) {
     const [formData, setFormData] = useState(initialState);
+
+    useEffect(() => {
+        setFormData(prevState => ({ ...prevState, destinationId: id }));
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
+        setFormData(prevFormData => ({
+            ...prevFormData,
             [name]: value
-        });
+        }));
+    };
+
+    const handleAutocompleteChange = (name, value) => {
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value
+        }));
     };
 
     const handleIntermediatePointChange = (index, value) => {
-        const newIntermediatePoints = [...formData.intermediatePoints];
-        newIntermediatePoints[index] = value;
-        setFormData({ ...formData, intermediatePoints: newIntermediatePoints });
+        const newIntermediatePoints = formData.intermediatePoints.map((point, i) =>
+            i === index ? value : point
+        );
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            intermediatePoints: newIntermediatePoints
+        }));
     };
 
     const addIntermediatePoint = () => {
-        setFormData({
-            ...formData,
-            intermediatePoints: [...formData.intermediatePoints, '']
-        });
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            intermediatePoints: [...prevFormData.intermediatePoints, '']
+        }));
+    };
+
+    const deleteIntermediatePoint = (index) => {
+        const newIntermediatePoints = formData.intermediatePoints.filter((_, i) => i !== index);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            intermediatePoints: newIntermediatePoints
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -102,14 +124,17 @@ function ModalForm({ isOpen, onRequestClose }) {
             const intermediateCoordinates = await Promise.all(intermediateCoordinatesPromises);
 
             const planData = {
+                destinationId: id,
                 planName: formData.name,
                 planDescription: formData.description,
                 startingPoint: startingCoordinates,
                 endPoint: endingCoordinates,
-                intermediatePoints: intermediateCoordinates
+                intermediatePoints: intermediateCoordinates,
+                userId: formData.userId 
             };
 
             await createPlan(planData);
+            console.log(planData);
             setFormData(initialState);
         } catch (error) {
             console.error('Error processing form:', error);
@@ -119,6 +144,7 @@ function ModalForm({ isOpen, onRequestClose }) {
 
     return (
         <Modal
+            id={id}
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             contentLabel="Add Plan"
@@ -152,14 +178,7 @@ function ModalForm({ isOpen, onRequestClose }) {
                     <label htmlFor='planStartingPoint' className='modal-label'>Starting Point</label>
                     <AutocompleteInput 
                         value={formData.startingPoint}
-                        onChange={(value) => handleChange({ target: { name: 'startingPoint', value } })}
-                    />
-                </div>
-                <div className="modal-form-group">
-                    <label htmlFor='planEndPoint' className='modal-label'>Ending Point</label>
-                    <AutocompleteInput 
-                        value={formData.endPoint}
-                        onChange={(value) => handleChange({ target: { name: 'endPoint', value } })}
+                        onChange={(value) => handleAutocompleteChange('startingPoint', value)}
                     />
                 </div>
                 <div className="modal-form-group">
@@ -170,9 +189,23 @@ function ModalForm({ isOpen, onRequestClose }) {
                                 value={point}
                                 onChange={(value) => handleIntermediatePointChange(index, value)}
                             />
+                            <button 
+                                type="button" 
+                                className="modal-button delete-button" 
+                                onClick={() => deleteIntermediatePoint(index)}
+                            >
+                                Delete
+                            </button>
                         </div>
                     ))}
-                    <button type='button' className='modal-button' onClick={addIntermediatePoint}>Add Intermediate Point</button>
+                    <button type='button' className='modal-button' onClick={addIntermediatePoint}>+</button>
+                </div>
+                <div className="modal-form-group">
+                    <label htmlFor='planEndPoint' className='modal-label'>Ending Point</label>
+                    <AutocompleteInput 
+                        value={formData.endPoint}
+                        onChange={(value) => handleAutocompleteChange('endPoint', value)}
+                    />
                 </div>
                 <div className="modal-form-group">
                     <button type="submit" className="modal-button modal-submit-button">Submit</button>
