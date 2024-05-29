@@ -1,0 +1,42 @@
+
+  .user-content {
+    padding-top: 100px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  .userData-container, .plan-post-containter {
+    margin-bottom: 20px;
+    padding-left: 10px;
+    margin-right: 0 !important;
+  }
+  
+  .user-name {
+    font-size: 5em;
+    text-align: left;
+  }
+  
+  .user-username {
+    text-align: left;
+  }
+
+  .user-followers{
+    text-align: left;
+  }
+
+  .user-following{
+    text-align: left;
+  }
+
+  .user-plans{
+    text-align: left;
+  }
+
+  .user-bio{
+    padding-top: 30px;
+    text-align: left;
+  }
+
+  .edit-bio{
+    text-align: left;
+  }

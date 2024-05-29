@@ -23,7 +23,7 @@ function AutocompleteInput({ value, onChange }) {
                     lng: place.geometry.location.lng()
                 };
                 setInputValue(place.formatted_address);
-                onChange(place.formatted_address);
+                onChange(place.formatted_address, location);
             }
         });
 
@@ -34,7 +34,7 @@ function AutocompleteInput({ value, onChange }) {
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
-        onChange(e.target.value);
+        onChange(e.target.value, null);
     };
 
     return (

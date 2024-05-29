@@ -13,15 +13,17 @@ function SearchBar({ onSearch }) {
     };
 
     return (
-		<form onSubmit={handleSubmit}>
-			<input
-				type="text"
-				value={iskanje}
-				onChange={handleInputChange}
-				placeholder="Search destinations..."
-			/>
-			<button type="submit">Search</button>
-		</form>
+        <>
+            <form>
+                <input
+                    type="text"
+                    value={iskanje}
+                    onChange={handleInputChange}
+                    placeholder="Search destinations..."
+                />
+            </form>
+            <img className="searchbar-icon" onClick={handleSubmit} src="/pictures/search-icon.png" />
+        </>
     );
 }
 
