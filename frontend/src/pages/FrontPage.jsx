@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react";
+import { React, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import '../assets/styles/FrontPage.css';
 import Navbar from "../components/Navbar";
@@ -14,7 +14,7 @@ function FrontPage() {
         continent: [],
         'price-range': '350',
         climate: [],
-		searchCriteria: ''
+        searchCriteria: ''
     });
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function FrontPage() {
             continent: params.get('continent') ? params.get('continent').split(',') : [],
             'price-range': params.get('price-range') || '350',
             climate: params.get('climate') ? params.get('climate').split(',') : [],
-			searchCriteria: params.get('searchCriteria') || ''
+            searchCriteria: params.get('searchCriteria') || ''
         };
         setFilterCriteria(newFilterCriteria);
     }, [location.search]);
@@ -31,29 +31,29 @@ function FrontPage() {
     const handleFilterSubmit = (formData) => {
         setFilterCriteria(formData);
     };
-	
-	const handleSearch = (iskanje) => {
-		setFilterCriteria((prevCriteria) => ({
-			...prevCriteria,
-			searchCriteria: iskanje
-		}));
-	};
+
+    const handleSearch = (iskanje) => {
+        setFilterCriteria((prevCriteria) => ({
+            ...prevCriteria,
+            searchCriteria: iskanje
+        }));
+    };
 
     return (
         <div className="frontpage">
             <Navbar />
-			<div className="search-bar">
-				<SearchBar onSearch={handleSearch} />
-			</div>
             <div className="main-content">
-			
+
                 <div className="filter-container">
+                    <div className="search-bar">
+                        <SearchBar onSearch={handleSearch} />
+                    </div>
                     <FilterDestination
                         initialFormData={filterCriteria}
                         onSubmit={handleFilterSubmit}
                     />
                 </div>
-                    <Destination key={JSON.stringify(filterCriteria)} filterCriteria={filterCriteria} />
+                <Destination key={JSON.stringify(filterCriteria)} filterCriteria={filterCriteria} />
             </div>
             <Footer />
         </div>

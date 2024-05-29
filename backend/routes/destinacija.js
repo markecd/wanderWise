@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../dbConn')
+const { db, bucket } = require('../dbConn');
 
 router.get('/getAll', async (req, res) => {
     try {
