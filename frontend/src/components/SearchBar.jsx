@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
 
-function SearchBar({ onSearch }) {
-    const [iskanje, setIskanje] = useState('');
+function SearchBar({ searchValue, onSearchChange, onSearchSubmit }) {
 
     const handleInputChange = (e) => {
-        setIskanje(e.target.value);
+        onSearchChange(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSearch(iskanje);
+        onSearchSubmit();
     };
-
+	
     return (
         <>
             <form>
                 <input
                     type="text"
-                    value={iskanje}
+                    value={searchValue}
                     onChange={handleInputChange}
                     placeholder="Search destinations..."
                 />
