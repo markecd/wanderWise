@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-function Destination({filterCriteria}) {
+function Destination({filterCriteria, searchCriteria}) {
     const [destinacije, setDestinacije] = useState([]);
     const navigate = useNavigate();
 
@@ -14,16 +14,20 @@ function Destination({filterCriteria}) {
                     continent: filterCriteria.continent.join(','),
                     priceRange: filterCriteria['price-range'],
                     climate: filterCriteria.climate.join(','),
-					searchCriteria: filterCriteria.searchCriteria
+					searchCriteria: searchCriteria
                 }).toString();
                 
                 let response;
 
-                if(!filterCriteria.searchCriteria && filterCriteria.continent.length === 0 && filterCriteria['price-range'] === "350" && filterCriteria.climate.length === 0){
-                    response = await fetch ('http://localhost:6500/destinacija/getAll');
+                if(!searchCriteria && filterCriteria.continent.length === 0 && filterCriteria['price-range'] === "350" && filterCriteria.climate.length === 0){
+                    response = await fetch ('http://localhost:6500/destinacija/getAll', {
+						credentials: 'include'
+					});
                 }
                 else{
-                    response = await fetch(`http://localhost:6500/destinacija/getFiltered?${query}`);
+                    response = await fetch(`http://localhost:6500/destinacija/getFiltered?${query}`, {
+						credentials: 'include'
+					});
                 }
                 if (!response.ok) {
                     throw new Error('Failed to fetch destinations');
@@ -35,7 +39,7 @@ function Destination({filterCriteria}) {
             }
         };
         fetchDestinations();
-    }, [filterCriteria]);
+    }, [filterCriteria, searchCriteria]);
 
     const handleClick = (id) => {
         navigate(`/planpage/${id}`);
