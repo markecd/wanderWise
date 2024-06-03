@@ -161,11 +161,12 @@ function Forum({ planId }) {
     return (
         <div className="forum-container">
             <h2>
-                FORUM načrta z idjem: {planId}
+            Your feedback matters! Share your thoughts below.
             </h2>
 
-            <button className="button-komentar" onClick={handleButtonClick}>
-                {buttonClicked ? <i className="bi bi-x"></i> : <i className="bi bi-plus"></i>}
+
+            <button className="button-komentar " onClick={handleButtonClick}>
+                {buttonClicked ? <i className="bi bi-x"></i> : <i class="bi bi-chat-fill"></i>}
             </button>
 
             {buttonClicked && (
@@ -176,7 +177,7 @@ function Forum({ planId }) {
                         onChange={handleCommentChange}
                         placeholder="Write your comment here"
                     />
-                    <button className="form-button-komentar bi-chat-dots" type="submit"></button>
+                    <button className="form-button-komentar bi bi-box-arrow-up" type="submit"></button>
                 </form>
             )}
 
@@ -184,14 +185,28 @@ function Forum({ planId }) {
 {comments && comments.map(comment => (
     comment && (
         <div key={comment.id} className="komentar">
-            <p><strong><Link to={`/user/${comment.userid}`}>{comment.username}</Link></strong>: {comment.content}</p>
-            <p>{formatTimestamp(comment.time?.seconds)}</p>
-            <button onClick={() => handleLikeClick(comment.id)}>
-                <i className="bi bi-heart"></i> {comment.liked_users.length}
-            </button>
+            <div className="username">
+            <i class="bi bi-person-fill"></i>
+                <Link className="link-username" to={`/user/${comment.userid}`}>{comment.username}</Link>
+            </div>
+            <div className="date">
+                {formatTimestamp(comment.time?.seconds)}
+            </div>
+            <div className="text-content">
+                <p>{comment.content}</p>
+            </div>
+            <div className={`like-button ${comment.liked_users.includes(userId) ? 'liked' : ''}`}>
+               
+                    <i onClick={() => handleLikeClick(comment.id)} className={`bi bi-heart${comment.liked_users.includes(userId) ? '-fill' : ''}`}></i> {comment.liked_users.length}
+             
+            </div>
         </div>
     )
 ))}
+
+
+
+
 
 
 
