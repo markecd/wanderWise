@@ -13,9 +13,13 @@ function Plans({ id, factor }) {
             try {
                 let response;
                 if(factor == "destination"){
-                    response = await fetch(`http://localhost:6500/nacrt/getNacrti?id=${id}`);
+                    response = await fetch(`http://localhost:6500/nacrt/getNacrti?id=${id}`, {
+						credentials: 'include'
+					});
                 } else{
-                    response = await fetch(`http://localhost:6500/nacrt/getNacrtiByUser?id=${id}`);
+                    response = await fetch(`http://localhost:6500/nacrt/getNacrtiByUser?id=${id}`, {
+						credentials: 'include'
+					});
                 }
                 if (!response.ok) {
                     throw new Error('Error fetching plans');

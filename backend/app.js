@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const authMiddleware = require('./middleware/authMiddleware');
 const app = express();
 
 const glavniRouter = require('./routes/index')
@@ -21,8 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', glavniRouter);
 app.use('/user', userRouter);
-app.use('/destinacija', destinacijaRouter);
-app.use('/nacrt', nacrtRouter);
+app.use('/destinacija', authMiddleware, destinacijaRouter);
+app.use('/nacrt', authMiddleware, nacrtRouter);
+
+app.get('/auth/check', authMiddleware, (req, res) => {
+    res.status(200).json({ message: 'Authenticated' });
+});
 
 app.get('/', function(req, res){
     res.send("Server se odziva.");
