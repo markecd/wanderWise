@@ -40,9 +40,14 @@
 }
 
 .btn-nacrt {
-    margin-top:70px;
-    width:10%;
+    margin-top: 70px;
+    width: 2%; /* Set a specific width */
+    height: 40px; /* Set the height to the same value as the width */
     background-color: #442220;
+    border-radius: 50%; /* Make it a circle */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+    padding:5px;
 }
 
 .btn-nacrt:hover {

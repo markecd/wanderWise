@@ -7,6 +7,7 @@ import Map from "../components/Map";
 import '../assets/styles/Plan.css';
 
 
+
 function Plan() {
     const { id } = useParams();
     const [plan, setPlan] = useState([]);
@@ -58,6 +59,7 @@ function Plan() {
                     <Map locationData={locationData} />
                 </div>
             </div>
+            <Forum planId={id}/>
             <Footer />
         </div>
     )

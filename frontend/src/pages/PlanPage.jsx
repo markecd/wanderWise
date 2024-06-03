@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import Forum from "../components/Forum";
 import Plans from "../components/Plans";
 import ModalForm from "../components/Modal";
 import { useParams } from "react-router-dom";
@@ -24,9 +23,9 @@ function PlanPage() {
             <Navbar />
             <div>
                 <p>Available plans for {id}</p>
-                <button className="btn-nacrt" onClick={openModal}>Dodaj</button>
+                <button className="btn-nacrt" onClick={openModal}>+</button>
                 <Plans id={id} factor="destination" />
-                <Forum />
+            
             </div>
             <Footer />
             <ModalForm id={id} isOpen={modalIsOpen} onRequestClose={closeModal} />
