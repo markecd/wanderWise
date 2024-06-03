@@ -20,7 +20,9 @@ function Plan() {
     useEffect(() => {
         const fetchPlan = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/nacrt/getPlanById?planId=${id}`);
+                const response = await fetch(`http://localhost:6500/nacrt/getPlanById?planId=${id}`, {
+					credentials: 'include'
+				});
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
