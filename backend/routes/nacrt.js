@@ -118,12 +118,100 @@ router.get('/mapData', async (req, res) => {
     }
 })
 
+
 router.post('/upload/:planId', async (req, res) => {
     try {
         const url = await uploadImage(req.file, req.params.planId);
         res.status(200).send({ url });
     } catch (error) {
         res.status(500).send({ error: error.message });
+    }
+});
+
+router.post('/likeComment', async (req, res) => {
+    try {
+        const { commentId } = req.query;
+        const { userId, planId } = req.body;
+
+        console.log("PlanId:", planId);
+        console.log("CommentId:", commentId);
+        console.log("UserId:", userId);
+
+        if (!commentId || !userId || !planId) {
+            throw new Error('Missing required parameters');
+        }
+
+        const commentRef = db.collection('plans').doc(planId).collection('messages').doc(commentId);
+        const commentDoc = await commentRef.get();
+
+        if (!commentDoc.exists) {
+            throw new Error('Comment not found');
+        }
+
+        let likedUsers = commentDoc.data().liked_users || [];
+        console.log("Existing liked_users:", likedUsers);
+        console.log("UserId to add:", userId);
+        console.log("Type of userId:", typeof userId);
+
+      
+        if (!Array.isArray(likedUsers)) {
+            throw new Error('liked_users must be an array');
+        }
+
+        if (likedUsers.includes(userId)) {
+            likedUsers = likedUsers.filter(user => user !== userId);
+            await commentRef.update({
+                liked_users: likedUsers
+            });
+            res.status(200).json({ message: 'Comment unliked successfully' });
+        } else {
+            likedUsers.push(userId);
+            await commentRef.update({
+                liked_users: likedUsers
+            });
+            res.status(200).json({ message: 'Comment liked successfully' });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message || 'Something went wrong' });
+    }
+});
+
+
+router.post('/createComment', async (req, res) => {
+    try {
+        const { planId } = req.query;
+        const { content, userId, time } = req.body;
+
+        console.log(planId);
+
+        const newComment = {
+            content: content,
+            liked_users: [],
+            time: new Date(time),
+            userid: userId
+        };
+
+        await db.collection('plans').doc(planId).collection('messages').add(newComment);
+
+        res.status(200).send({ message: 'Comment added successfully' });
+    } catch (error) {
+        console.error('Error adding comment: ', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+});
+
+router.get('/getComments', async (req, res) => {
+    try {
+        const { planId } = req.query;
+
+        const messagesSnapshot = await db.collection('plans').doc(planId).collection('messages').orderBy('time', 'desc').get();
+        const comments = messagesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        res.status(200).json(comments);
+    } catch (error) {
+        console.error('Error getting comments: ', error);
+        res.status(500).send({ message: 'Internal Server Error' });
     }
 });
 
