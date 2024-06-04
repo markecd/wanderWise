@@ -32,7 +32,7 @@ function FilterDestination({ initialFormData, onSubmit }) {
         <div className="filter-container">
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="continent">Continent:</label>
+                    <label htmlFor="continent"><b>Continent</b></label>
                     <div>
                         {['Africa', 'Asia', 'Australia', 'Europe', 'South America', 'North America'].map(continentInstance => (
                             <label key={continentInstance}>
@@ -49,7 +49,7 @@ function FilterDestination({ initialFormData, onSubmit }) {
                     </div>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="price-range">Price range:</label>
+                    <label htmlFor="price-range"><b>Price range</b></label>
                     <input
                         type="range"
                         id="price-range"
@@ -62,7 +62,7 @@ function FilterDestination({ initialFormData, onSubmit }) {
                     {formData['price-range']}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="climate">Climate:</label>
+                    <label htmlFor="climate"><b>Climate</b></label>
                     <div>
                         {['Arid', 'Tropical', 'Subtropical', 'Oceanic', 'Semi-arid', 'Temperate', 'Continental', 'Mediterranean', 'Humid subtropical', 'Desert'].map(climateInstance => (
                             <label key={climateInstance}>
@@ -78,7 +78,7 @@ function FilterDestination({ initialFormData, onSubmit }) {
                         ))}
                     </div>
                 </div>
-                <button type="submit" className="btn">Filter</button>
+                <button type="submit" className="btn"><i class="bi bi-filter"></i></button>
             </form>
         </div>
     );
