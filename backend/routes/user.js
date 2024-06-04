@@ -18,6 +18,27 @@ router.get('/getAll', async (req, res) => {
     }
 });
 
+router.get('/getIdByUsername', async(req, res) => {
+    try{
+        const {username} = req.query;
+
+        const docSnapshot = await db.collection('user').where('username', '==', username).get();
+
+        if (docSnapshot.docs.map(doc => doc.data()).length == 0) {
+            console.log("noooo")
+            res.status(404).json("Username ne obstaja");
+            return
+        } else{
+            res.status(200).json(docSnapshot.docs[0].id)
+            console.log(docSnapshot.docs[0].id) 
+        }
+
+    }
+    catch (error) {
+        console.error("Error getting users: ", error);
+        res.status(500).send("Error getting users");
+    }
+})
 
 router.post('/usernameExists', async (req, res) => {
     try {
@@ -53,6 +74,20 @@ router.post('/registerUser', async (req, res) => {
                 res.status(200).json("user was inserted");
             })
         })
+    }
+    catch (error) {
+        console.error("Error: ", error);
+        res.status(500).send("Error");
+    }
+})
+
+router.get('/getUsernameById', async (req, res) => {
+    try{
+        const {userId} = req.query;
+        const snapshotUser = await db.collection('user').doc(userId).get();
+        const userData = snapshotUser.data();
+        const userUsernameObj = {id: userId, username: userData.username}
+        res.status(200).json(userUsernameObj)
     }
     catch (error) {
         console.error("Error: ", error);

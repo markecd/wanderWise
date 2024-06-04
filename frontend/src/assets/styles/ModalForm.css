@@ -26,6 +26,15 @@
     bottom: 0;
 }
 
+.modal-plan{
+    z-index: 100000001;
+
+}
+
+.overlay-plan{
+    z-index: 100000000;
+}
+
 .modal-form {
     display: flex;
     flex-direction: column;
