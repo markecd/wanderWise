@@ -7,6 +7,7 @@ import Map from "../components/Map";
 import '../assets/styles/Plan.css';
 
 
+
 function Plan() {
     const { id } = useParams();
     const [plan, setPlan] = useState([]);
@@ -71,13 +72,14 @@ function Plan() {
                             <p className="save-text">Wander!</p>
                         </button>
                     </div>
-                    <p className="plan-user">Creator:  <Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
+                    <p className="plan-user"><i class="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
                     <p className="plan-description">{plan.plan_description}</p>
                 </div>
                 <div className="plan-map">
                     <Map locationData={locationData} />
                 </div>
             </div>
+            <Forum planId={id}/>
             <Footer />
             {isModalOpen && (
                 <div className="overlay overlay-plan">

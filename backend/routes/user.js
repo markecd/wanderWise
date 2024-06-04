@@ -97,14 +97,14 @@ router.get('/getUsernameById', async (req, res) => {
 
 router.get('/getUserData', async (req, res) => {
     try {
-        const {userId} = req.query;
+        const { userId } = req.query;
 
         const snapshotUser = await db.collection('user').doc(userId).get();
         const userData = snapshotUser.data();
         const plansRef = db.collection('plans').where('userid', '==', userId);
         const followersRef = db.collection('user').doc(userId).collection('followers');
         const followingRef = db.collection('user').doc(userId).collection('following');
-        
+
         const followersSnapshot = await followersRef.get();
         const followingSnapshot = await followingRef.get();
         const plansSnapshot = await plansRef.get();
@@ -129,9 +129,28 @@ router.get('/getUserData', async (req, res) => {
     }
 })
 
+/*router.get('/getUsername/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const userDoc = await db.collection('user').doc(id).get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const userData = userDoc.data();
+        const username = userData.username; 
+        
+        res.status(200).json({ username });
+    } catch (error) {
+        console.error("Error fetching username: ", error);
+        res.status(500).json({ message: "Internal Server Error", error: error.toString() });
+    }
+});*/
+
 router.delete('/followUser', async (req, res) => {
     try {
-        const {userId} = req.query;
+        const { userId } = req.query;
         const webToken = req.cookies.auth_token
         let followerId;
 
@@ -142,7 +161,7 @@ router.delete('/followUser', async (req, res) => {
 
             followerId = decoded.id;
         });
-        
+
         const userRef = db.collection('user').doc(userId);
         const followerRef = userRef.collection('followers').doc(followerId);
         const followingRef = db.collection('user').doc(followerId).collection('following').doc(userId);
@@ -163,7 +182,7 @@ router.delete('/followUser', async (req, res) => {
 
 router.post('/followUser', async (req, res) => {
     try {
-        const {userId} = req.query;
+        const { userId } = req.query;
         const webToken = req.cookies.auth_token
         let followerId;
 
@@ -187,11 +206,11 @@ router.post('/followUser', async (req, res) => {
         const followerData = followerDocSnapshot.data();
 
         await db.runTransaction(async (transaction) => {
-            transaction.set(followerRef,{
+            transaction.set(followerRef, {
                 followerId: followerId,
                 followerUsername: followerData.username
             });
-            transaction.set(followingRef,{
+            transaction.set(followingRef, {
                 followingId: userId,
                 followingUsername: userData.username
             });
@@ -247,8 +266,8 @@ router.post('/loginUser', async (req, res) => {
         const snapshot = await db.collection('user').where('username', '==', username).get();
         const userId = snapshot.docs[0].id;
 
-        const token = jwt.sign({id: userId}, secretKey, { expiresIn: '48h'});
-        res.cookie('auth_token', token, {httpOnly: true, secure: false});
+        const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '48h' });
+        res.cookie('auth_token', token, { httpOnly: true, secure: false });
         res.status(200).json("prijava uspešna");
     }
     catch (error) {
@@ -310,7 +329,7 @@ router.get('/isFollowing', async (req, res) => {
         });
 
         const isFollowing = await checkIfFollowing(userId, followerId);
-        res.status(200).json({isFollowing});
+        res.status(200).json({ isFollowing });
 
     }
     catch (error) {
@@ -319,13 +338,13 @@ router.get('/isFollowing', async (req, res) => {
     }
 })
 
-async function checkIfFollowing(followingId, followerId){
+async function checkIfFollowing(followingId, followerId) {
     const followingRef = db.collection('user').doc(followerId).collection('following').doc(followingId);
     const doc = await followingRef.get();
     return doc.exists;
 }
 
-router.get('/getUserIdAuth', async (req, res) =>{
+router.get('/getUserIdAuth', async (req, res) => {
     try {
         const webToken = req.cookies.auth_token
 
@@ -364,8 +383,8 @@ router.post('/loginUser', async (req, res) => {
         const userId = snapshot.docs[0].id;
 
 
-        const token = jwt.sign({id: userId}, secretKey, { expiresIn: '48h'});
-        res.cookie('auth_token', token, {httpOnly: true, secure: false});
+        const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '48h' });
+        res.cookie('auth_token', token, { httpOnly: true, secure: false });
         res.status(200).json("prijava uspešna");
     }
     catch (error) {
