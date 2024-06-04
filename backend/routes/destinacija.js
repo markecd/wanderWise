@@ -38,6 +38,20 @@ router.get('/getFiltered', async (req, res) => {
     
 })
 
+router.get('/getDestinationById', async (req, res) => {
+    try{
+        const {destinationId} = req.query;
+
+        const destinationSnapshot = await db.collection('destinations').doc(destinationId).get();
+        const destinationData = destinationSnapshot.data();
+
+        res.status(200).json(destinationData.destination_name)
+
+    }catch (error) {
+        console.error("Error getting destination: ", error);
+        res.status(500).send("Error getting users");
+    }
+})
 
 
 
