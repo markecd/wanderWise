@@ -271,10 +271,6 @@ router.post('/likeComment', async (req, res) => {
         const { commentId } = req.query;
         const { userId, planId } = req.body;
 
-        console.log("PlanId:", planId);
-        console.log("CommentId:", commentId);
-        console.log("UserId:", userId);
-
         if (!commentId || !userId || !planId) {
             throw new Error('Missing required parameters');
         }
@@ -287,11 +283,7 @@ router.post('/likeComment', async (req, res) => {
         }
 
         let likedUsers = commentDoc.data().liked_users || [];
-        console.log("Existing liked_users:", likedUsers);
-        console.log("UserId to add:", userId);
-        console.log("Type of userId:", typeof userId);
 
-      
         if (!Array.isArray(likedUsers)) {
             throw new Error('liked_users must be an array');
         }
@@ -320,8 +312,6 @@ router.post('/createComment', async (req, res) => {
     try {
         const { planId } = req.query;
         const { content, userId, time } = req.body;
-
-        console.log(planId);
 
         const newComment = {
             content: content,
@@ -410,15 +400,12 @@ router.post('/dobiLokacijo', async (req, res) => {
 
 
         if (originName !== "") {
-            console.log(originName, cityName)
 
             const iataCodes = await runPythonScript(cityName);
             const iataCodesOrigin = await runPythonScript(originName);
-        
-            console.log("IATA Codes:", iataCodes, "origin:", iataCodesOrigin);
-    
+            
             if (iataCodes.length == 0) {
-                return res.status(404).json("No iata codes found for that city")
+                return res.status(200).json([{ message: "No iata codes found for that city" }]);
             }
     
             let ticketData = null;
@@ -426,8 +413,7 @@ router.post('/dobiLokacijo', async (req, res) => {
             for (const iataCode of iataCodes) {
                 const apiResponse = await fetch(`https://api.travelpayouts.com/aviasales/v3/prices_for_dates?currency=eur&origin=${iataCodesOrigin[0]}&destination=${iataCode}&departure_at=${dateFrom}&return_at=${dateTo}&unique=false&sorting=price&direct=false&cy=usd&limit=5&page=1&one_way=true&token=aeccebeaa5b74c24f8d4fa31fccc2c90`);
                 const data = await apiResponse.json();
-                if (data.data.length !== 0) {
-                    console.log(iataCode)
+                if (data.data && data.data.length !== 0) {
                     ticketData = data.data;
                     break;
                 }
@@ -440,6 +426,7 @@ router.post('/dobiLokacijo', async (req, res) => {
 
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: 'Error getting plane tickets' });
     }
 })
@@ -447,7 +434,9 @@ router.post('/dobiLokacijo', async (req, res) => {
 const runPythonScript = (cityName) => {
     return new Promise((resolve, reject) => {
         const scriptPath = path.join(__dirname, '../../findIATA.py');
-        exec(`python "${scriptPath}" ${cityName}`, (error, stdout, stderr) => {
+        const quotedCityName = `"${cityName}"`; // Ensure the city name is quoted
+        const command = `python "${scriptPath}" ${quotedCityName}`;
+        exec(command, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing script: ${error.message}`);
                 return reject('Error executing script');
@@ -478,5 +467,59 @@ function extractCountryName(data) {
     return null;
 }
 
+
+router.post('/createSavedPlan', async (req, res) => {
+    try{
+        const { planData, participants, dateFrom, dateTo, userId } = req.body;
+        let participantsIdArray = [];
+        if(participants.length !== 0){
+            for(const participant of participants){
+                const response = await fetch(`http://localhost:6500/user/getIdByUsername?username=${participant}`, {
+                    credentials: 'include'
+                });
+                if (!response.ok) {
+                    return res.status(404).json("One or more usernames not found!");
+                }
+                const participantId = await response.json();
+                participantsIdArray.push(participantId);
+            }
+        }
+        participantsIdArray.push(userId);
+
+        const intermediate = planData.intermediate_points ? planData.intermediate_points : [];
+
+        const newSavedPlan = {
+            plan_name: planData.plan_name,
+            plan_description: planData.plan_description,
+            destionationid: planData.destinationid,
+            userid: planData.userid,
+            starting_point: {
+                latitude: planData.starting_point.latitude,
+                longitude: planData.starting_point.longitude
+            },
+            end_point: {
+                latitude: planData.end_point.latitude,
+                longitude: planData.end_point.longitude,
+            },
+            intermediate_points: intermediate, //tu si dodal ta pogojni operator če ne bo delalo zbrisi
+            date_from: dateFrom,
+            date_to: dateTo,
+            participants: [...participantsIdArray]
+        };
+
+        const newDocId = dateFrom.concat("", userId);
+        console.log(newDocId)
+
+        for(const participantId of participantsIdArray){
+            await db.collection('user').doc(participantId).collection('saved_plans').doc(newDocId).set(newSavedPlan);
+        }
+
+        res.status(200).json("Added saved plan to all participants!")
+
+    }catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Error saving a plan' });
+    }
+})
 
 module.exports = router;
