@@ -5,8 +5,8 @@ import { React, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Map from "../components/Map";
 import '../assets/styles/Plan.css';
-
-
+import { toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 function Plan() {
     const { id } = useParams();
@@ -19,7 +19,7 @@ function Plan() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDateFrom, setSelectedDateFrom] = useState();
     const [selectedDateTo, setSelectedDateTo] = useState();
-
+    const [participants, setParticipants] = useState(['']);
 
     useEffect(() => {
         const fetchPlan = async () => {
@@ -32,9 +32,9 @@ function Plan() {
                 }
                 const planData = await response.json();
                 setPlan(planData);
-                const response2 = await fetch(`http://localhost:6500/user/getUserData?userId=${planData.userid}`)
+                const response2 = await fetch(`http://localhost:6500/user/getUserData?userId=${planData.userid}`);
                 if (!response2.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response2.status}`);
                 }
                 const userData = await response2.json();
                 setUser(userData);
@@ -60,6 +60,49 @@ function Plan() {
         setIsModalOpen(false);
     };
 
+    const handleParticipantChange = (index, value) => {
+        const newParticipants = [...participants];
+        newParticipants[index] = value;
+        setParticipants(newParticipants);
+    };
+
+    const addParticipantField = () => {
+        setParticipants([...participants, '']);
+    };
+
+    const removeParticipantField = (index) => {
+        const newParticipants = participants.filter((_, i) => i !== index);
+        setParticipants(newParticipants);
+    };
+
+    const handleSubmit = async () => {
+        const bodyData = {
+            planId: id,
+            participants: participants,
+            dateFrom: selectedDateFrom,
+            dateTo: selectedDateTo
+        };
+        try {
+            const response = await fetch(`http://localhost:6500/nacrt/addParticipantsToPlan`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to add participants');
+            }
+            const responseData = await response.json();
+            toast.success(responseData.message, { autoClose: 1500 });
+            setIsModalOpen(false);
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error("Failed to add participants!");
+        }
+    };
+
     return (
         <div className="plan">
             <Navbar />
@@ -68,11 +111,10 @@ function Plan() {
                     <div className="save-option">
                         <h1 className="plan-name">{plan.plan_name}</h1>
                         <button className="save-option save-button" onClick={handleAdd}>
-                            <i className="bi bi-globe-americas save-icon"></i>
-                            <p className="save-text">Wander!</p>
+                            <p className="save-text"><i className="bi bi-people-fill"></i></p>
                         </button>
                     </div>
-                    <p className="plan-user"><i class="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
+                    <p className="plan-user"><i className="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
                     <p className="plan-description">{plan.plan_description}</p>
                 </div>
                 <div className="plan-map">
@@ -102,16 +144,34 @@ function Plan() {
                                     onChange={(e) => setSelectedDateTo(e.target.value)}
                                 />
                                 <label className="modal-label">Participants</label>
-                                
+                                {participants.map((participant, index) => (
+                                    <div key={index} className="participant-input-group">
+                                        <input
+                                            type="text"
+                                            className="modal-input"
+                                            value={participant}
+                                            onChange={(e) => handleParticipantChange(index, e.target.value)}
+                                            placeholder="Enter participant username"
+                                        />
+                                        <button
+                                            type="button"
+                                            className="modal-button delete-button"
+                                            onClick={() => removeParticipantField(index)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                ))}
+                                <button type='button' className='modal-button' onClick={addParticipantField}>+</button>
                             </div>
-                            <button className="modal-button modal-submit-button" >Submit</button>
+                            <button className="modal-button modal-submit-button" onClick={handleSubmit}>Submit</button>
                             <button className="modal-button modal-close-button" onClick={handleModalCancel}>Cancel</button>
                         </div>
                     </div>
                 </div>
             )}
         </div>
-    )
+    );
 }
 
 export default Plan;
