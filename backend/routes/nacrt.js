@@ -38,6 +38,8 @@ router.get('/getNacrti', async (req, res) => {
     }
 })
 
+
+
 router.delete('/removeParticipant', async (req, res) => {
     try {
         const { userId, planId } = req.query;
