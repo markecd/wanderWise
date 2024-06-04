@@ -112,7 +112,7 @@ function Participants({ participants, planId }) {
         <div>
             <ul className="participants">
                 <div className="participant-item">
-                    <h3>Participants:</h3>
+                    <h3>Participants</h3>
                     <i className="bi bi-person-add participant-icon" onClick={handleAdd}></i>
                 </div>
                 {participantsState.map(participant => (
@@ -124,8 +124,8 @@ function Participants({ participants, planId }) {
                 <ToastContainer />
             </ul>
             {isModalOpen && (
-                <div className="overlay">
-                    <div className="modal">
+                <div className="overlay overlay-plan">
+                    <div className="modal modal-plan">
                         <div className="modal-form">
                             <h2>Add Participant</h2>
                             <div className="modal-form-group">

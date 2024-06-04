@@ -72,7 +72,7 @@ function Plan() {
                             <p className="save-text">Wander!</p>
                         </button>
                     </div>
-                    <p className="plan-user"><i class="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
+                    <p className="plan-user"><i className="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
                     <p className="plan-description">{plan.plan_description}</p>
                 </div>
                 <div className="plan-map">

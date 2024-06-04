@@ -16,6 +16,14 @@
 
 .plan-participants {
   width: 200px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top:20px;
+  margin-right: 0px;
 }
 
 .participants {
@@ -71,7 +79,6 @@
 .plan-data-container {
   padding:40px;
   margin-top:20px;
-  margin-left: 25px;
   flex: 1;
   padding: 20px;
   background-color: #f9f9f9;
@@ -86,7 +93,6 @@
   background-color: #f9f9f9;
   padding:40px;
   margin-top:20px;
-  margin-right: 25px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

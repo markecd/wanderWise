@@ -1,0 +1,43 @@
+.ticketContent {
+    display: flex;
+    align-items: center;
+}
+
+.ticket-block{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 50px;
+}
+
+.ticket-city{
+    font-weight: 700;
+    margin-bottom: 0px;
+}
+
+.ticket-date{
+    font-size: xx-small;
+}
+
+.offers{
+    padding-left: 0;
+}
+
+.offers-text{
+    text-align: left;
+}
+
+.ticket-item{
+    padding-left: 25px;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+    padding: 10px;
+    background-color: #442220;
+}
+
+.bi-airplane-fill{
+    color: white;
+}
