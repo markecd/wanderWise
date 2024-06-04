@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 function Tickets({ dateFrom, dateTo, destinationId }) {
 
     const [offers, setOffers] = useState([]);
+    const [error, setError] = useState(null);
+
 
     useEffect(() => {
         async function fetchDestination() {
@@ -36,12 +38,13 @@ function Tickets({ dateFrom, dateTo, destinationId }) {
                             body: JSON.stringify({ latitude, longitude, cityName, dateFrom, dateTo })
                         });
                         const data = await response.json();
-                        debugger
                         setOffers(data)
                     } catch (error) {
+                        setError(error);
                         console.error('Error:', error);
                     }
                 }, function (error) {
+                    setError(error);
                     console.error("Error Code = " + error.code + " - " + error.message);
                 });
             } else {
@@ -51,7 +54,7 @@ function Tickets({ dateFrom, dateTo, destinationId }) {
         fetchDestination();
     }, [destinationId]);
 
-    function formatDate(dateString){
+    function formatDate(dateString) {
         const date = new Date(dateString);
         const day = date.getDate();
         const month = date.getMonth() + 1;
@@ -63,37 +66,45 @@ function Tickets({ dateFrom, dateTo, destinationId }) {
 
     }
 
+    const hasOffers = offers.length > 0 && !offers[0].message;
+
     return (
         <div>
             <ul className="offers">
                 <div className="offers-text">
                     <h3>Offers</h3>
                 </div>
-                {offers.map(offer => (
-                    <li key={offer.link} className='participant-item ticket-item'>
-                        <div className="tickets">
-                            <div className="ticketContent">
-                                <div className="ticket-block">
-                                    <p className="ticket-city">{offer.origin}</p>
-                                    <p className="ticket-date">{formatDate(offer.departure_at)}</p>
+                {error && <p>Error: {error.message}</p>}
+                {!error && hasOffers ? (
+                    offers.map(offer => (
+                        <li key={offer.link} className='participant-item ticket-item'>
+                            <div className="tickets">
+                                <div className="ticketContent">
+                                    <div className="ticket-block">
+                                        <p className="ticket-city">{offer.origin}</p>
+                                        <p className="ticket-date">{formatDate(offer.departure_at)}</p>
+                                    </div>
+                                    <div className="ticket-block">
+                                        <i className="bi bi-arrow-left-right ticket-arrow"></i>
+                                        <p className="ticket-price">{offer.price + "€"}</p>
+                                    </div>
+                                    <div className="ticket-block">
+                                        <p className="ticket-city">{offer.destination}</p>
+                                        <p className="ticket-date">{formatDate(offer.return_at)}</p>
+                                    </div>
                                 </div>
-                                <div className="ticket-block">
-                                    <i className="bi bi-arrow-right"></i>
-                                </div>
-                                <div className="ticket-block">
-                                    <p className="ticket-city">{offer.destination}</p>
-                                    <p className="ticket-date">{formatDate(offer.return_at)}</p>
-                                </div>
+                                <Link to={`https://aviasales.com${offer.link}`}>
+                                    <button className="rotate-90"><i className="bi bi-airplane-fill"></i></button>
+                                </Link>
                             </div>
-                            <Link to={`https://aviasales.com${offer.link}`}>
-                                <button className="rotate-90"><i className="bi bi-airplane-fill"></i></button>
-                            </Link>
-                        </div>
-                    </li>
-                ))}
+                        </li>
+                    ))
+                ) : (
+                    <p>No offers available.</p>
+                )}
             </ul>
         </div>
-    )
+    );
 }
 
 export default Tickets;

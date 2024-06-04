@@ -14,6 +14,7 @@
 .ticket-city{
     font-weight: 700;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .ticket-date{
@@ -28,8 +29,21 @@
     text-align: left;
 }
 
+.ticket-price{
+    font-weight: 700;
+}
+
+.ticket-arrow{
+    margin-top: 0px;
+    padding-top: 10px;
+}
+
 .ticket-item{
     padding-left: 25px;
+    background-color: #e2e2e2;
+    padding:5px;
+    border-radius:8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .rotate-90 {
@@ -40,4 +54,8 @@
 
 .bi-airplane-fill{
     color: white;
+}
+
+.tickets{
+    margin-left: 20px;
 }
