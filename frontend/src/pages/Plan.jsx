@@ -19,7 +19,7 @@ function Plan() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDateFrom, setSelectedDateFrom] = useState();
     const [selectedDateTo, setSelectedDateTo] = useState();
-    const [participants, setParticipants] = useState(['']);
+    const [participants, setParticipants] = useState([]);
 
     useEffect(() => {
         const fetchPlan = async () => {
@@ -76,30 +76,49 @@ function Plan() {
     };
 
     const handleSubmit = async () => {
-        const bodyData = {
-            planId: id,
-            participants: participants,
-            dateFrom: selectedDateFrom,
-            dateTo: selectedDateTo
-        };
         try {
-            const response = await fetch(`http://localhost:6500/nacrt/addParticipantsToPlan`, {
+            const getUserAuth = await fetch('http://localhost:6500/user/getUserIdAuth', {
+                credentials: 'include'
+            })
+
+            const userId = await getUserAuth.json();
+
+            const bodyData = {
+                planData: plan,
+                participants: participants,
+                dateFrom: selectedDateFrom,
+                dateTo: selectedDateTo,
+                userId: userId
+            };
+
+            const response = await fetch('http://localhost:6500/nacrt/createSavedPlan', {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(bodyData)
-            });
-            if (!response.ok) {
-                throw new Error('Failed to add participants');
+            })
+
+            if(!response.ok){
+                toast.error(await response.json(), { autoClose: 1500 });
+                setParticipants([]);
+                setSelectedDateFrom(null);
+                setSelectedDateTo(null);
+                setIsModalOpen(false);
             }
-            const responseData = await response.json();
-            toast.success(responseData.message, { autoClose: 1500 });
+            else{
+                const responseData = await response.json();
+                toast.success(responseData, { autoClose: 1500 });
+                setParticipants([]);
+                setSelectedDateFrom(null);
+                setSelectedDateTo(null);
+                setIsModalOpen(false);
+            }
             setIsModalOpen(false);
         } catch (error) {
             console.error("Error:", error);
-            toast.error("Failed to add participants!");
+            toast.error("Failed to save a plan!");
         }
     };
 
@@ -111,11 +130,15 @@ function Plan() {
                     <div className="save-option">
                         <h1 className="plan-name">{plan.plan_name}</h1>
                         <button className="save-option save-button" onClick={handleAdd}>
-                            <p className="save-text"><i className="bi bi-people-fill"></i></p>
+                            <i className="bi bi-globe-americas save-icon"></i>
+                            <p className="save-text">Wander</p>
                         </button>
                     </div>
                     <p className="plan-user"><i className="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
                     <p className="plan-description">{plan.plan_description}</p>
+                    <div className="plan-images">
+                        {plan.plan_images && <img src={plan.plan_images[0]} alt={plan.plan_name} className="plan-image" />}
+                    </div>
                 </div>
                 <div className="plan-map">
                     <Map locationData={locationData} />

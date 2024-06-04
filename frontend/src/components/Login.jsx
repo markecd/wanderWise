@@ -90,7 +90,6 @@ async function loginUser(userData) {
             return serverResposnse
         } else{
             toast.error(serverResposnse.message);
-            debugger
         }
     }).catch(error => {
         console.error('Error:', error);
