@@ -9,6 +9,7 @@ const glavniRouter = require('./routes/index')
 const userRouter = require('./routes/user')
 const destinacijaRouter = require('./routes/destinacija')
 const nacrtRouter = require('./routes/nacrt')
+const cohereRouter = require('./routes/cohere')
 
 app.use(cors({
     origin: 'http://localhost:5173', 
@@ -24,6 +25,7 @@ app.use('/', glavniRouter);
 app.use('/user', userRouter);
 app.use('/destinacija', authMiddleware, destinacijaRouter);
 app.use('/nacrt', authMiddleware, nacrtRouter);
+app.use('/cohere', cohereRouter);
 
 app.get('/auth/check', authMiddleware, (req, res) => {
     res.status(200).json({ message: 'Authenticated' });
