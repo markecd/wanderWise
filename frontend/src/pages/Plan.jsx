@@ -54,7 +54,7 @@ function Plan() {
             <div className="plan-content">
                 <div className="plan-data-container">
                     <h1 className="plan-name">{plan.plan_name}</h1>
-                    <p className="plan-user"><i class="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
+                    <p className="plan-user"><i className="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
                     <p className="plan-description">
                       
                         {plan.plan_description}
