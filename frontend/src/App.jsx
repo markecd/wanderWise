@@ -12,6 +12,7 @@ import RequireAuth from './components/RequireAuth';
 import PlanPage from './pages/PlanPage';
 import Plan from './pages/Plan';
 import UserPage from './pages/UserPage';
+import SavedPlan from './pages/SavedPlan';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/frontpage" element={<RequireAuth><FrontPage /></RequireAuth>} />    
         <Route path="/planpage/:id" element={<RequireAuth><PlanPage /></RequireAuth>}/>
         <Route path="/plan/:id" element={<RequireAuth><Plan /></RequireAuth>}/>
+        <Route path="/savedPlan/:id" element={<RequireAuth><SavedPlan /></RequireAuth>}/>
         <Route path="/user/:id" element={<RequireAuth><UserPage /></RequireAuth>}/>
       </Routes>
     </Router>
