@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
 import '../assets/styles/Navbar.css';
 import { React, useEffect, useState } from "react";
+import SearchBar from './SearchBar';
 
 
 function Navbar() {
     const [userId, setUserId] = useState();
+    const [searchCriteria, setSearchCriteria] = useState("");
+    const [searchValue, setSearchValue] = useState("");
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -26,11 +29,22 @@ function Navbar() {
         fetchUserId();
     }, []);
 
+    
+    const handleSearchChange = (value) => {
+        setSearchValue(value);
+    };
+
+    const handleSearchSubmit = () => {
+        setSearchCriteria(searchValue);
+    };
+
+
     return (
         <div className="navbar">
             <Link to="/frontpage">
                 <img className="logo" src="/pictures/WanderLogo.png" alt="Logo" />
             </Link>
+            <SearchBar searchValue={searchValue} onSearchChange={handleSearchChange} onSearchSubmit={handleSearchSubmit}/>
             <div className="navbar-menu">
             <Link to={`/user/${userId}`}>
                 <img className="user-logo" src="/pictures/User.png" alt="User Logo" />
