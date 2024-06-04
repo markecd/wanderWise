@@ -166,7 +166,7 @@ function Forum({ planId }) {
 
 
             <button className="button-komentar " onClick={handleButtonClick}>
-                {buttonClicked ? <i className="bi bi-x"></i> : <i class="bi bi-chat-fill"></i>}
+                {buttonClicked ? <i className="bi bi-x"></i> : <i className="bi bi-chat-fill"></i>}
             </button>
 
             {buttonClicked && (
@@ -186,7 +186,7 @@ function Forum({ planId }) {
     comment && (
         <div key={comment.id} className="komentar">
             <div className="username">
-            <i class="bi bi-person-fill"></i>
+            <i className="bi bi-person-fill"></i>
                 <Link className="link-username" to={`/user/${comment.userid}`}>{comment.username}</Link>
             </div>
             <div className="date">
