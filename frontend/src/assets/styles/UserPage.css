@@ -46,3 +46,26 @@
   .edit-bio{
     text-align: left;
   }
+
+  .tab-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: #442220;
+    color: #fff;
+}
+
+.plan-post-container {
+    padding-top: 20px;
+}

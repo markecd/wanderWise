@@ -1,6 +1,7 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Plans from "../components/Plans";
+import SavedPlans from "../components/SavedPlans";
 import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import '../assets/styles/UserPage.css';
@@ -19,6 +20,8 @@ function UserPage() {
     });
     const [ownPage, setOwnPage] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [selectedTab, setSelectedTab] = useState('myPlans'); // State for selected tab
+
 
     const handleBio = async () => {
         try{
@@ -122,8 +125,23 @@ function UserPage() {
                         {ownPage && <button className="edit-bio col-lg-2" onClick={handleBio}>Edit user bio</button>}
                     </div>
                 </div>
+                <div className="tab-container">
+                    <button 
+                        className={`tab-button ${selectedTab === 'myPlans' ? 'active' : ''}`} 
+                        onClick={() => setSelectedTab('myPlans')}
+                    >
+                        My Plans
+                    </button>
+                    <button 
+                        className={`tab-button ${selectedTab === 'savedPlans' ? 'active' : ''}`} 
+                        onClick={() => setSelectedTab('savedPlans')}
+                    >
+                        Saved Plans
+                    </button>
+                </div>
                 <div className="plan-post-containter">
-                    <Plans id={id} factor="user" />
+                    {selectedTab === 'myPlans' && <Plans id={id} factor="user" />}
+                    {selectedTab === 'savedPlans' && <SavedPlans id={id} />}
                 </div>
             </div>
             <Footer />

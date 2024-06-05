@@ -78,7 +78,7 @@ function FilterDestination({ initialFormData, onSubmit }) {
                         ))}
                     </div>
                 </div>
-                <button type="submit" className="btn"><i className="bi bi-filter"></i></button>
+                <button type="submit" className="btn"><i className="bi bi-funnel-fill"></i></button>
             </form>
         </div>
     );
