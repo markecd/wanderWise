@@ -124,6 +124,7 @@ function ModalForm({ id, isOpen, onRequestClose }) {
             intermediatePoints: newIntermediatePoints
         });
 
+        setActiveInput(null);
         setActiveInput(`intermediatePoint-${newIntermediatePoints.length - 1}`);
     };
 
