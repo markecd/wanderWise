@@ -45,11 +45,12 @@ function Plans({ id, factor }) {
     return (
 
         <div className="plan-grid">
+            {!plans.length > 0 && <p className="no-plans-message">There are no existing plans for this destination... </p>}
             {plans.map(plan => (
                 <div onClick={() => { handleClick(plan.id) }} key={plan.id} className='plan-container'>
                     <h3 className="plan-name">{plan.plan_name}</h3>
                     {plan.plan_images && <img onClick={() => { handleClick(plan.id) }} src={plan.plan_images[3]} alt={plan.plan_name} className="plan-image" />}
-                    {!plan.plan_images && <p>{plan.plan_description}</p>}
+                    {!plan.plan_images && <p className="plan-description2">{plan.plan_description}</p>}
                 </div>
             ))}
         </div>

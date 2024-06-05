@@ -61,3 +61,17 @@
 .btn-nacrt:hover {
     background-color: #2E0014;
   }
+
+  .plan-description2 {
+    font-size: 15px;
+    overflow: hidden;          /* Prevents the text from spilling outside the container */
+    text-overflow: ellipsis;   /* Adds ellipsis (...) at the end if the text overflows */       /* Keeps the text in a single line */
+}
+
+  .no-plans-message {
+    grid-column: 2; 
+    justify-self: center; 
+    align-self: center; 
+    font-size: 30px;
+    font-weight: 500;
+}
