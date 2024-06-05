@@ -393,5 +393,10 @@ router.post('/loginUser', async (req, res) => {
     }
 })
 
+router.post('/logoutUser', (req, res) => {
+	res.clearCookie('auth_token', { httpOnly: true, secure: false});
+	res.status(200).send("Odjava uspešna.");
+});
+
 
 module.exports = router;
