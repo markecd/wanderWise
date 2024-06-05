@@ -171,6 +171,7 @@ function ModalForm({ id, isOpen, onRequestClose }) {
     const handleBlur = () => {
         setActiveInput(null);
     };
+
       
     return (
         <Modal
@@ -214,7 +215,7 @@ function ModalForm({ id, isOpen, onRequestClose }) {
                         onBlur={handleBlur}
                     />
                 ) : (
-                    <div onClick={() => handleFocus('startingPoint')}>{formData.startingPoint || <i className="ikona bi bi-pin-angle-fill"> Vnesite lokacijo</i>}</div>
+                    <div onClick={() => handleFocus('startingPoint')}>{formData.startingPoint || 'Click to enter starting point'}</div>
                 )}
             </div>
             <div className="modal-form-group">
@@ -229,7 +230,7 @@ function ModalForm({ id, isOpen, onRequestClose }) {
                                 onBlur={handleBlur}
                             />
                         ) : (
-                            <div onClick={() => handleFocus(`intermediatePoint-${index}`)}>{point || <i className="ikona bi bi-pin-angle-fill"> Vnesite lokacijo</i>}</div>
+                            <div onClick={() => handleFocus(`intermediatePoint-${index}`)}>{point || 'Click to enter intermediate point'}</div>
                         )}
                         <button
                             type="button"
@@ -252,10 +253,9 @@ function ModalForm({ id, isOpen, onRequestClose }) {
                         onBlur={handleBlur}
                     />
                 ) : (
-                    <div onClick={() => handleFocus('endPoint')}>{formData.endPoint || <i className="ikona bi bi-pin-angle-fill"> Vnesite lokacijo</i>}</div>
+                    <div onClick={() => handleFocus('endPoint')}>{formData.endPoint || 'Click to enter ending point'}</div>
                 )}
             </div>
-                
             <div className="modal-form-group">
                 <button type="submit" className="modal-button modal-submit-button">Submit</button>
                 <button type="button" onClick={onRequestClose} className="modal-button modal-close-button">Close</button>
