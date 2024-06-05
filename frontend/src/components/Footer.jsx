@@ -4,7 +4,8 @@ import '../assets/styles/Footer.css';
 function Footer() {
 	return (
 		<div className="footer">
-			<h2 className='footer-text'>© Praktikum 2024</h2>
+			<h3 className='footer-text'>© Praktikum 2024</h3>
+			<a href="mailto:wanderwise.praktikum@gmail.com" className="footer-link">Contact us</a>
 		</div>
 	);
 }
