@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/styles/DestinationSearch.css';
-import{ ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 const DestinationSearch = () => {
@@ -41,7 +43,7 @@ const DestinationSearch = () => {
         setSearchValue(e.target.value);
     };
 
-    const handleOnClick = async(destination) => {
+    const handleOnClick = async (destination) => {
         setLoading(true);
         const response = await fetch(`http://localhost:6500/cohere/getGeneratedPlan?destinationName=${destination}`)
         if (!response.ok) {
@@ -80,7 +82,7 @@ const DestinationSearch = () => {
         const destinationId = await response2.json();
 
         savedPlan.destionationid = destinationId;
-        
+
         const response3 = await fetch(`http://localhost:6500/user/getUserIdAuth`, {
             method: 'GET',
             credentials: 'include'
@@ -100,7 +102,7 @@ const DestinationSearch = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({savedPlan})
+            body: JSON.stringify({ savedPlan })
         })
         if (!response4.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -110,9 +112,12 @@ const DestinationSearch = () => {
         setLoading(false);
         setSearchValue('');
 
+        toast.success("Generated successfully!");
+
+
         setTimeout(() => {
-          window.location.href = `/savedPlan/${createdPlanId}`;
-        }, 200);
+            window.location.href = `/savedPlan/${createdPlanId}`;
+        }, 1500);
     }
 
     return (
@@ -136,6 +141,7 @@ const DestinationSearch = () => {
                     )}
                 </div>
             </div>
+            <ToastContainer autoClose={1000}/>
         </div>
     );
 };

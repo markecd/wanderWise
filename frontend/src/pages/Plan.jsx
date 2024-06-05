@@ -5,7 +5,7 @@ import { React, useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Map from "../components/Map";
 import '../assets/styles/Plan.css';
-import { toast } from 'react-toastify'; 
+import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 
 function Plan() {
@@ -101,7 +101,7 @@ function Plan() {
             })
 
             if(!response.ok){
-                toast.error(await response.json(), { autoClose: 1500 });
+                toast.error("One or more usernames not found!");
                 setParticipants([]);
                 setSelectedDateFrom(null);
                 setSelectedDateTo(null);
@@ -109,7 +109,7 @@ function Plan() {
             }
             else{
                 const responseData = await response.json();
-                toast.success(responseData, { autoClose: 1500 });
+                toast.success("Plan saved!");
                 setParticipants([]);
                 setSelectedDateFrom(null);
                 setSelectedDateTo(null);
@@ -196,6 +196,7 @@ function Plan() {
                     </div>
                 </div>
             )}
+            <ToastContainer />
         </div>
     );
 }
