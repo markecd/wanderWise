@@ -125,7 +125,7 @@ function UserPage() {
                         {ownPage && <button className="edit-bio col-lg-2" onClick={handleBio}>Edit user bio</button>}
                     </div>
                 </div>
-                <div className="tab-container">
+                {ownPage && <div className="tab-container">
                     <button 
                         className={`tab-button ${selectedTab === 'myPlans' ? 'active' : ''}`} 
                         onClick={() => setSelectedTab('myPlans')}
@@ -138,7 +138,7 @@ function UserPage() {
                     >
                         Saved Plans
                     </button>
-                </div>
+                </div>}
                 <div className="plan-post-containter">
                     {selectedTab === 'myPlans' && <Plans id={id} factor="user" />}
                     {selectedTab === 'savedPlans' && <SavedPlans id={id} />}

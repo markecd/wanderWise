@@ -537,7 +537,7 @@ router.post('/createSavedPlan', async (req, res) => {
             await db.collection('user').doc(participantId).collection('saved_plans').doc(newDocId).set(newSavedPlan);
         }
 
-        res.status(200).json("Added saved plan to all participants!")
+        res.status(200).json(newDocId)
 
     }catch (error) {
         console.log(error)

@@ -15,7 +15,7 @@ function FilterDestination({ initialFormData, onSubmit }) {
         }));
     };
 
-    const handleChange = (e) => {  
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -49,7 +49,8 @@ function FilterDestination({ initialFormData, onSubmit }) {
                     </div>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="price-range"><b>Price range</b></label>
+                    <label htmlFor="price-range" className="label-price-range"><b>Price range</b></label>
+                    <p className="price-range-describe">{"(Average daily cost)"}</p>
                     <input
                         type="range"
                         id="price-range"
@@ -59,7 +60,8 @@ function FilterDestination({ initialFormData, onSubmit }) {
                         value={formData['price-range']}
                         onChange={handleChange}
                     />
-                    {formData['price-range']}
+                    {formData['price-range'] + "€"}
+
                 </div>
                 <div className="form-group">
                     <label htmlFor="climate"><b>Climate</b></label>

@@ -114,6 +114,9 @@ function Plan() {
                 setSelectedDateFrom(null);
                 setSelectedDateTo(null);
                 setIsModalOpen(false);
+                setTimeout(() => {
+                    window.location.href = `/savedPlan/${responseData}`;
+                }, 500);
             }
             setIsModalOpen(false);
         } catch (error) {

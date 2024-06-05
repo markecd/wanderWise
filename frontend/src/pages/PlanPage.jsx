@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Plans from "../components/Plans";
 import ModalForm from "../components/Modal";
 import { useParams } from "react-router-dom";
-import '../assets/styles/PlanPage.css'; // Create and import this CSS file for additional styles if needed
+import '../assets/styles/PlanPage.css';
 
 function PlanPage() {
     const { id } = useParams();
