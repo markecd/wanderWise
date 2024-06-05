@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
 import '../assets/styles/Navbar.css';
 import { React, useEffect, useState } from "react";
-import SearchBar from './SearchBar';
+import SearchBarNav from './SearchBarNav';
 
 
 function Navbar() {
     const [userId, setUserId] = useState();
-    const [searchCriteria, setSearchCriteria] = useState("");
     const [searchValue, setSearchValue] = useState("");
+
 
     useEffect(() => {
         const fetchUserId = async () => {
@@ -29,13 +29,17 @@ function Navbar() {
         fetchUserId();
     }, []);
 
-    
+
     const handleSearchChange = (value) => {
         setSearchValue(value);
+        console.log(searchValue);
+        //ob vsakem se naj s trenutnim vnosom gre cez skripto in vraca rerender komponente pod search barom ki nam mece rezultate
     };
 
     const handleSearchSubmit = () => {
-        setSearchCriteria(searchValue);
+        // call na chatgpt al ka je
+        console.log(searchValue)
+        console.log("ajdee")
     };
 
 
@@ -44,12 +48,12 @@ function Navbar() {
             <Link to="/frontpage">
                 <img className="logo" src="/pictures/WanderLogo.png" alt="Logo" />
             </Link>
-            <SearchBar searchValue={searchValue} onSearchChange={handleSearchChange} onSearchSubmit={handleSearchSubmit}/>
+            <SearchBarNav searchValue={searchValue} onSearchChange={handleSearchChange} onSearchSubmit={handleSearchSubmit} />
             <div className="navbar-menu">
-            <Link to={`/user/${userId}`}>
-                <img className="user-logo" src="/pictures/User.png" alt="User Logo" />
-            </Link>
-                <img className='logout-logo' src="/pictures/Logout.png" alt='Logout Logo'/>
+                <Link to={`/user/${userId}`}>
+                    <img className="user-logo" src="/pictures/User.png" alt="User Logo" />
+                </Link>
+                <img className='logout-logo' src="/pictures/Logout.png" alt='Logout Logo' />
             </div>
         </div>
     );

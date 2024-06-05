@@ -524,4 +524,23 @@ router.post('/createSavedPlan', async (req, res) => {
     }
 })
 
+
+router.post('/createGeneratedSavedPlan', async (req, res) => {
+    try{
+        const savedPlan = req.body.savedPlan;
+
+        const docId = savedPlan.userid.replace("BOT", "");
+
+        const docRef = await db.collection('user').doc(docId).collection('saved_plans').add(savedPlan);
+
+        const newDocId = docRef.id;
+
+        res.status(200).json(newDocId);
+
+    }catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Error saving a plan' });
+    }
+})
+
 module.exports = router;

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
+import DestinationSearch from './DestinationSearch';
 
-function SearchBar({ searchValue, onSearchChange, onSearchSubmit }) {
+
+function SearchBarNav({ searchValue, onSearchChange, onSearchSubmit }) {
+
+    const [searchValueForSearchBar, setSearchValueForSearchBar] = useState();
 
     const handleInputChange = (e) => {
+        setSearchValueForSearchBar(e.target.value);
         onSearchChange(e.target.value);
     };
 
@@ -13,17 +18,9 @@ function SearchBar({ searchValue, onSearchChange, onSearchSubmit }) {
 	
     return (
         <>
-            <form>
-                <input
-                    type="text"
-                    value={searchValue}
-                    onChange={handleInputChange}
-                    placeholder="Search destinations..."
-                />
-            </form>
-            <img className="searchbar-icon" onClick={handleSubmit} src="/pictures/search-icon.png" />
+            {<DestinationSearch search={searchValueForSearchBar}/>}
         </>
     );
 }
 
-export default SearchBar;
+export default SearchBarNav;

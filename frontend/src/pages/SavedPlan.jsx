@@ -31,7 +31,7 @@ function SavedPlan() {
 
                 let dateFromUnformatted = planData.date_from;
                 let dateToUnformatted = planData.date_to;
-            
+
                 let novObj = planData;
                 let dateFrom = new Date(novObj.date_from);
                 let dayFrom = dateFrom.getDate();
@@ -51,8 +51,9 @@ function SavedPlan() {
                 novObj.dateFrom = dateFromUnformatted;
                 novObj.dateTo = dateToUnformatted;
                 setPlan(novObj);
-                
-                const response2 = await fetch(`http://localhost:6500/user/getUserData?userId=${planData.userid}`)
+                const modifiedString = planData.userid.replace(/BOT$/, "");
+
+                const response2 = await fetch(`http://localhost:6500/user/getUserData?userId=${modifiedString}`)
                 if (!response2.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -72,6 +73,14 @@ function SavedPlan() {
         fetchPlan();
     }, [id]);
 
+    const getNextMonth = (dateStr) => {
+        const date = new Date(dateStr);
+        const nextMonth = new Date(date.setMonth(date.getMonth() + 1));
+        const year = nextMonth.getFullYear();
+        const month = nextMonth.getMonth() + 1;
+        return `1. ${month}. ${year}`;
+    };
+
     return (
         <div className="plan">
             <Navbar />
@@ -86,8 +95,25 @@ function SavedPlan() {
                 </div>
                 <div className="plan-data-container">
                     <h1 className="plan-name">{plan.plan_name}</h1>
-                    <p className="plan-user"><i className="bi bi-feather"></i><Link to={`/user/${plan.userid}`}>{user.username}</Link></p>
-                    <p className="plan-date">{plan.date_from + " - " + plan.date_to}</p>
+                    <p className="plan-user">
+                        {plan.userid && plan.userid.endsWith("BOT") ? (
+                            <>
+                                <i className="bi bi-stars"></i>
+                                Generated with AI
+                            </>
+                        ) : (
+                            <>
+                                <i className="bi bi-feather"></i>
+                                <Link to={`/user/${plan.userid}`}>{user.username}</Link>
+                            </>
+                        )}
+                    </p>
+                    <p className="plan-date">
+                        {plan.dateFrom === plan.dateTo ?
+                            `${plan.date_from} - ${getNextMonth(plan.dateFrom)}` :
+                            `${plan.date_from} - ${plan.date_to}`
+                        }
+                    </p>
                     <p className="plan-description">{plan.plan_description}</p>
                 </div>
                 <div className="plan-map">
