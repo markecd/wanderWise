@@ -12,37 +12,36 @@ const cohere = new CohereClient({
 
 
 
+router.get('/getGeneratedPlan', async (req, res) => {
+  try{
+    const {destinationName} = req.query;
+    
+    const response = await cohere.chat({
+      message: `For ${destinationName} or somewhere nearby make a fun trip plan. You need to fill the fields in given json object with that trip data and plan_description should briefly describe the chosen geopoints. Make the response a JSON object, WITHOUT ANY ADDITIONAL TEXT OR DESCRIPTION!`+
+      "{"+
+        "plan_name: *Paris awesome trip*,"+
+        "plan_description: *Paris rolls out some great...*,"+
+        "starting_point: {"+
+            "latitude: *48.944940*,"+ 
+            "longitude: *2.354061*,"+
+        "},"+
+        "end_point: {"+
+            "latitude: *49.113325*,"+ 
+            "longitude: *2.210882*,"+
+        "},"+
+        "intermediate_points: [{latitude: 49.028563, longitude: 2.062002}]," +
+    "}",
+    })
 
+    console.log(response.text)
+    res.status(200).json(response.text)
 
-/*
-(async () => {
-  const response = await cohere.chat({
-    message: `For ${destination.name} or somewhere nearby make a fun trip for destination id put: ${destination.id}, for userid put: ${destination.userid.concat("","13")} just write any data you want that would make sense in this context, make the response a json object, without any additonal text`+
-    "{"+
-      "plan_name: planData.plan_name,"+
-      "plan_description: planData.plan_description,"+
-      "destionationid: planData.destinationid,"+
-      "userid: planData.userid,"+
-      "starting_point: {"+
-          "latitude: planData.starting_point.latitude,"+
-          "longitude: planData.starting_point.longitude"+
-      "},"+
-      "end_point: {"+
-          "latitude: planData.end_point.latitude,"+
-          "longitude: planData.end_point.longitude,"+
-      "},"+
-      "intermediate_points: intermediate," +
-      "date_from: dateFrom,"+
-      "date_to: dateTo,"+
-  "}",
-  });
-
-
-
-  console.log(response.text)
-  
-})();
-*/
+  }catch (error) {
+    console.error("Error getting generated plan: ", error);
+    res.status(500).send("Error getting users");
+}
+})
+ 
 
 module.exports = router;
 

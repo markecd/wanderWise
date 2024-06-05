@@ -147,7 +147,8 @@ function ModalForm({ id, isOpen, onRequestClose }) {
                     intermediatePoints: intermediateCoordinates,
                     userId: userId
                 };
-    
+                
+                debugger
                 await createPlan(planData);
                 
                 setFormData(initialState);
