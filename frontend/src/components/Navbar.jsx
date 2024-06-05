@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../assets/styles/Navbar.css';
 import { React, useEffect, useState } from "react";
 import SearchBarNav from './SearchBarNav';
@@ -7,6 +7,7 @@ import SearchBarNav from './SearchBarNav';
 function Navbar() {
     const [userId, setUserId] = useState();
     const [searchValue, setSearchValue] = useState("");
+	const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -28,6 +29,21 @@ function Navbar() {
 
         fetchUserId();
     }, []);
+	
+	const handleLogout = async () => {
+		try {
+			const response = await fetch(`http://localhost:6500/user/logoutUser`, {
+				method: 'POST',
+				credentials: 'include'
+			});
+			if (!response.ok) {
+				throw new Error('Logout failed');
+			}
+			navigate('/');
+		} catch(error) {
+			console.log(error.message);
+		}
+	};
 
 
     const handleSearchChange = (value) => {
@@ -50,10 +66,10 @@ function Navbar() {
             </Link>
             <SearchBarNav searchValue={searchValue} onSearchChange={handleSearchChange} onSearchSubmit={handleSearchSubmit} />
             <div className="navbar-menu">
-                <Link to={`/user/${userId}`}>
-                    <img className="user-logo" src="/pictures/User.png" alt="User Logo" />
-                </Link>
-                <img className='logout-logo' src="/pictures/Logout.png" alt='Logout Logo' />
+            <Link to={`/user/${userId}`}>
+                <img className="user-logo" src="/pictures/User.png" alt="User Logo" />
+            </Link>
+                <img className='logout-logo' src="/pictures/Logout.png" alt='Logout Logo' onClick={handleLogout} />
             </div>
         </div>
     );
