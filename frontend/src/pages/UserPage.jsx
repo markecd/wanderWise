@@ -122,7 +122,7 @@ function UserPage() {
                         {ownPage && <button className="edit-bio col-lg-2" onClick={handleBio}>Edit user bio</button>}
                     </div>
                 </div>
-                <div className="plan-post-containter row">
+                <div className="plan-post-containter">
                     <Plans id={id} factor="user" />
                 </div>
             </div>
