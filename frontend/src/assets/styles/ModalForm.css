@@ -82,6 +82,7 @@
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 16px;
+    cursor:pointer;
 }
 
 .modal-textarea {
@@ -95,7 +96,6 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
 }
 
 .modal-submit-button {
@@ -113,4 +113,14 @@
 
 .modal-close-button:hover {
     background-color: #999;
+}
+
+.hover {
+    padding:6px;
+    cursor:pointer;
+}
+
+.ikona {
+   cursor:pointer;
+    padding:3px;
 }

@@ -76,6 +76,7 @@ async function getCoordinates(destination) {
 function ModalForm({ id, isOpen, onRequestClose }) {
     const [formData, setFormData] = useState(initialState);
     const [userId, setUserId] = useState();
+    const [activeInput, setActiveInput] = useState(null);
 
     useEffect(() => {
         const fetchUserIdAndUpdateFormData = async () => {
@@ -117,10 +118,14 @@ function ModalForm({ id, isOpen, onRequestClose }) {
     };
 
     const addIntermediatePoint = () => {
+        const newIntermediatePoints = [...formData.intermediatePoints, ''];
         setFormData({
             ...formData,
-            intermediatePoints: [...formData.intermediatePoints, '']
+            intermediatePoints: newIntermediatePoints
         });
+
+        setActiveInput(null);
+        setActiveInput(`intermediatePoint-${newIntermediatePoints.length - 1}`);
     };
 
     const deleteIntermediatePoint = (index) => {
@@ -160,7 +165,13 @@ function ModalForm({ id, isOpen, onRequestClose }) {
         }
     };
     
-    
+    const handleFocus = (inputName) => {
+        setActiveInput(inputName);
+    };
+
+    const handleBlur = () => {
+        setActiveInput(null);
+    };
 
       
     return (
@@ -194,22 +205,34 @@ function ModalForm({ id, isOpen, onRequestClose }) {
                     value={formData.description}
                     onChange={handleChange}
                 ></textarea>
-            </div>
+            </div>            
             <div className="modal-form-group">
                 <label htmlFor='planStartingPoint' className='modal-label'>Starting Point</label>
-                <AutocompleteInput
-                    value={formData.startingPoint}
-                    onChange={(value, location) => handleAutocompleteChange('startingPoint', value, location)}
-                />
+                {activeInput === 'startingPoint' ? (
+                    <AutocompleteInput
+                        value={formData.startingPoint}
+                        onChange={(value, location) => handleAutocompleteChange('startingPoint', value, location)}
+                        onFocus={() => handleFocus('startingPoint')}
+                        onBlur={handleBlur}
+                    />
+                ) : (
+                    <div onClick={() => handleFocus('startingPoint')}>{formData.startingPoint || 'Click to enter starting point'}</div>
+                )}
             </div>
             <div className="modal-form-group">
                 <label className='modal-label'>Intermediate Points</label>
                 {formData.intermediatePoints.map((point, index) => (
                     <div key={index} className="modal-form-group">
-                        <AutocompleteInput
-                            value={point}
-                            onChange={(value, location) => handleIntermediatePointChange(index, value, location)}
-                        />
+                        {activeInput === `intermediatePoint-${index}` ? (
+                            <AutocompleteInput
+                                value={point}
+                                onChange={(value, location) => handleIntermediatePointChange(index, value)}
+                                onFocus={() => handleFocus(`intermediatePoint-${index}`)}
+                                onBlur={handleBlur}
+                            />
+                        ) : (
+                            <div onClick={() => handleFocus(`intermediatePoint-${index}`)}>{point || 'Click to enter intermediate point'}</div>
+                        )}
                         <button
                             type="button"
                             className="modal-button delete-button"
@@ -223,10 +246,16 @@ function ModalForm({ id, isOpen, onRequestClose }) {
             </div>
             <div className="modal-form-group">
                 <label htmlFor='planEndPoint' className='modal-label'>Ending Point</label>
-                <AutocompleteInput
-                    value={formData.endPoint}
-                    onChange={(value, location) => handleAutocompleteChange('endPoint', value, location)}
-                />
+                {activeInput === 'endPoint' ? (
+                    <AutocompleteInput
+                        value={formData.endPoint}
+                        onChange={(value, location) => handleAutocompleteChange('endPoint', value, location)}
+                        onFocus={() => handleFocus('endPoint')}
+                        onBlur={handleBlur}
+                    />
+                ) : (
+                    <div onClick={() => handleFocus('endPoint')}>{formData.endPoint || 'Click to enter ending point'}</div>
+                )}
             </div>
             <div className="modal-form-group">
                 <button type="submit" className="modal-button modal-submit-button">Submit</button>
