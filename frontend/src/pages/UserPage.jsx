@@ -21,15 +21,46 @@ function UserPage() {
     const [ownPage, setOwnPage] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
     const [selectedTab, setSelectedTab] = useState('myPlans'); // State for selected tab
+	
+	const [isEditingBio, setIsEditingBio] = useState(false);
+	const [newBio, setNewBio] = useState("");
 
 
-    const handleBio = async () => {
-        try{
-            console.log("jugu")
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+	const handleEditBio = () => {
+	  setIsEditingBio(true);
+	  setNewBio(user.bio);
+	};
+
+	const handleChangeBio = (e) => {
+	  setNewBio(e.target.value);
+	};
+
+	const handleCancelEditBio = () => {
+	  setIsEditingBio(false);
+	};
+
+	const handleSaveBio = async () => {
+		try {
+			const response = await fetch(`http://localhost:6500/user/updateBio?userId=${id}`, {
+			  method: 'PUT',
+			  body: JSON.stringify({ bio: newBio }),
+			  headers: {
+				'Content-Type': 'application/json'
+			  },
+			  credentials: 'include'
+			});
+
+			if (!response.ok) {
+			  throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const result = await response.json();
+			setUser(prevUser => ({ ...prevUser, bio: newBio }));
+			setIsEditingBio(false);
+		  } catch (error) {
+			console.log(error.message);
+		  }
+		};
+
 
     const handleFollow = async () => {
         try {
@@ -117,12 +148,31 @@ function UserPage() {
                         <h4 className="user-following col-lg-3">{user.followingNumber + " Following"}</h4>
                         <h4 className="col-lg-4"></h4>
                     </div>
-                    <div className="col-lg-8 row">
-                        <p className="user-bio col-lg-10">
-                            {!user.bio && "No user bio"}
-                            {user.bio && user.bio}
-                        </p>
-                        {ownPage && <button className="edit-bio col-lg-2" onClick={handleBio}>Edit user bio</button>}
+                    <div className="col-lg-8">
+                        <p>User bio:</p>
+						{isEditingBio && (
+						  <div>
+							<textarea
+							  className="edit-bio-input"
+							  value={newBio}
+							  onChange={handleChangeBio}
+							/>
+							<button className="btn-when-edit" onClick={handleSaveBio}>Save</button>
+							<button className="btn-when-edit" onClick={handleCancelEditBio}>Cancel</button>
+						  </div>
+						)}
+						
+						{!isEditingBio && (
+						  <p className="user-bio col-lg-10">
+							{!user.bio && "No user bio"}
+							{user.bio && user.bio}
+						  </p>
+						)}
+						{ownPage && !isEditingBio && (
+						  <button className="edit-bio-btn" onClick={handleEditBio}>
+							Edit Bio
+						  </button>
+						)}
                     </div>
                 </div>
                 {ownPage && <div className="tab-container">

@@ -226,7 +226,7 @@ function ModalForm({ id, isOpen, onRequestClose }) {
                         {activeInput === `intermediatePoint-${index}` ? (
                             <AutocompleteInput
                                 value={point}
-                                onChange={(value, location) => handleIntermediatePointChange(index, value)}
+                                onChange={(value, location) => handleIntermediatePointChange(index, value, location)}
                                 onFocus={() => handleFocus(`intermediatePoint-${index}`)}
                                 onBlur={handleBlur}
                             />
