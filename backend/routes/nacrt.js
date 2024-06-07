@@ -273,7 +273,7 @@ router.get('/mapData', async (req, res) => {
         const { start, end, intermediate } = req.query;
         const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${start}&destination=${end}&waypoints=optimize:true|${intermediate}&key=${apiKey}`);
         const data = await response.json();
-        res.json(data);
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching directions' });
     }
