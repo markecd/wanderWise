@@ -11,8 +11,7 @@ const { arrayRemove } = require('@firebase/firestore');
 const secretKey = 'secret-key';
 const { exec } = require('child_process');
 const fs = require('fs').promises;
-
-
+const nodemailer = require('nodemailer');
 
 
 
@@ -160,7 +159,7 @@ router.post('/createPlan', async (req, res) => {
 
 
 
-        await db.collection('plans').add({
+        const docRef = await db.collection('plans').add({
 
             destinationid: destinationId,
             plan_name: planName,
@@ -181,6 +180,37 @@ router.post('/createPlan', async (req, res) => {
         });
 
         res.status(200).json({ message: "Plan was inserted" });
+
+
+        const followersOfCreator = await db.collection('user').doc(userId).collection('followers').get();
+        const followersEmails = followersOfCreator.docs.map(doc => doc.data().email);
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'muricombe.delic@gmail.com',
+                pass: 'pfuj ihfg ftow lemr'
+            }
+        });
+
+        let mailText = `User you follow has created new plan on WanderWise. Link: http://localhost:5173/plan/${docRef.id}`;
+
+        for(const email of followersEmails){
+            let mailOptions = {
+                from: 'muricombe.delic@gmail.com',
+                to: email,
+                subject: 'New plan from user you follow!',
+                text: mailText
+            };
+
+            try {
+                let info = await transporter.sendMail(mailOptions);
+                console.log('Email sent: ' + info.response);
+            } catch (error) {
+                console.error('Error sending email: ', error);
+            }
+        }
+
     } catch (error) {
         console.error("Error: ", error);
         res.status(500).json({ message: "Error creating plan" });

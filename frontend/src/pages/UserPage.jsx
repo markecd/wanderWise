@@ -148,17 +148,18 @@ function UserPage() {
                         <h4 className="user-following col-lg-3">{user.followingNumber + " Following"}</h4>
                         <h4 className="col-lg-4"></h4>
                     </div>
-                    <div className="col-lg-8">
-                        <p>User bio:</p>
+                    <div className="col-lg-8 user-bio-div">
 						{isEditingBio && (
-						  <div>
+						  <div className="user-bio-div-editing">
 							<textarea
 							  className="edit-bio-input"
 							  value={newBio}
 							  onChange={handleChangeBio}
 							/>
+                            <div>
 							<button className="btn-when-edit" onClick={handleSaveBio}>Save</button>
 							<button className="btn-when-edit" onClick={handleCancelEditBio}>Cancel</button>
+                            </div>
 						  </div>
 						)}
 						
