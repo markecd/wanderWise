@@ -116,6 +116,7 @@ router.get('/getUserData', async (req, res) => {
         const data = {
             name: userData.name,
             username: userData.username,
+			bio: userData.bio,
             followersNumber: steviloFollowerjevUserja,
             followingNumber: steviloFollowingovUserja,
             userPlansNumber: steviloPlanovUserja
@@ -386,7 +387,7 @@ router.post('/loginUser', async (req, res) => {
 
         const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '48h' });
         res.cookie('auth_token', token, { httpOnly: true, secure: false });
-        res.status(200).json("prijava uspešna");
+        res.status(200).json("Login successful!");
     }
     catch (error) {
         console.error("Error: ", error);
@@ -396,7 +397,24 @@ router.post('/loginUser', async (req, res) => {
 
 router.post('/logoutUser', (req, res) => {
 	res.clearCookie('auth_token', { httpOnly: true, secure: false});
-	res.status(200).send("Odjava uspešna.");
+	res.status(200).send("Logout successful.");
+});
+
+router.put('/updateBio', async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const { bio } = req.body;
+
+    await db.collection('user').doc(userId).update({ bio });
+
+    const updatedUserDoc = await db.collection('user').doc(userId).get();
+    console.log("Updated user data:", updatedUserDoc.data());
+	
+    res.status(200).json("Bio updated successfully");
+  } catch (error) {
+    console.error("Error updating bio: ", error);
+    res.status(500).send("Error updating bio");
+  }
 });
 
 
