@@ -206,10 +206,12 @@ router.post('/followUser', async (req, res) => {
         const userData = userDocSnapshot.data();
         const followerData = followerDocSnapshot.data();
 
+
         await db.runTransaction(async (transaction) => {
             transaction.set(followerRef, {
                 followerId: followerId,
-                followerUsername: followerData.username
+                followerUsername: followerData.username,
+                followerEmail : followerData.email
             });
             transaction.set(followingRef, {
                 followingId: userId,

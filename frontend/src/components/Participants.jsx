@@ -94,7 +94,7 @@ function Participants({ participants, planId }) {
         }
         else{
             const responseData = await response.json();
-            toast.success(responseData.message, { autoClose: 1500 });
+            toast.success("Added participant successfully!", { autoClose: 1500 });
             setParticipantsState(prevState => [...prevState, responseData.user]);
             setNewParticipant("");
             setIsModalOpen(false);
