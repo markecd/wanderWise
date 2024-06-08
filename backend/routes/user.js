@@ -61,14 +61,15 @@ router.post('/usernameExists', async (req, res) => {
 
 router.post('/registerUser', async (req, res) => {
     try {
-        const { name, username, password } = req.body;
+        const { name, username, password, email } = req.body;
 
         bcrypt.genSalt(saltRounds, function (err, salt) {
             bcrypt.hash(password, salt, async function (err, hash) {
                 await db.collection('user').add({
                     'name': name,
                     'username': username,
-                    'password': hash
+                    'password': hash,
+                    'email': email
                 })
 
                 res.status(200).json("user was inserted");
@@ -211,7 +212,7 @@ router.post('/followUser', async (req, res) => {
             transaction.set(followerRef, {
                 followerId: followerId,
                 followerUsername: followerData.username,
-                followerEmail : followerData.email
+                email : followerData.email
             });
             transaction.set(followingRef, {
                 followingId: userId,
