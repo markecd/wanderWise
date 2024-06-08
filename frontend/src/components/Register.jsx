@@ -9,6 +9,7 @@ function Register() {
     name: '',
     username: '',
     password: '',
+    email: ''
   });
 
   const handleChange = (e) => {
@@ -39,6 +40,11 @@ function Register() {
       dataOk = false;
     }
 
+    if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email)) {
+      toast.error("Invalid email format!");
+      dataOk = false;
+    }
+
     let usernameExists = await checkUsername(formData.username);
 
     if (usernameExists) {
@@ -52,9 +58,12 @@ function Register() {
       let userData = {
         'name': formData.name,
         'username': formData.username,
-        'password': formData.password
+        'password': formData.password,
+        'email': formData.email
       }
+      console.log(userData);
       registerUser(userData);
+      
     }
   };
 
@@ -81,6 +90,17 @@ function Register() {
               id="username"
               name="username"
               value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="username">E-mail:</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
