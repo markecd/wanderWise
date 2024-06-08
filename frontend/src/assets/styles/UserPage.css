@@ -35,16 +35,43 @@
   }
 
   .user-plans{
-    text-align: left;
+    text-align: center;
   }
 
   .user-bio{
-    padding-top: 30px;
     text-align: left;
+	border: 3px;
+	border-radius: 5px;
+	border-style: solid;
   }
 
-  .edit-bio{
-    text-align: left;
+  .edit-bio-btn{
+	padding: 10px 20px;
+    border: none;
+    background-color: #442220;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .btn-when-edit {
+	padding: 10px 20px;
+	background-color: #442220;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-top: 170px;
+	color: #fff;
+  }
+  
+  .edit-bio-input {
+    width: 100%;
+    max-width: 500px;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    margin-bottom: 10px;
   }
 
   .tab-container {
