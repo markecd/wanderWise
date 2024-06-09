@@ -74,6 +74,7 @@ function Login() {
 }
 
 async function loginUser(userData) {
+    console.log(apiUrl)
     await fetch(`${apiUrl}/user/loginUser`, {
         method: 'POST',
         headers: {
