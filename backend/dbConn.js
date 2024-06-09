@@ -1,7 +1,10 @@
 const firebase = require('firebase/app');
 require('firebase/firestore');
 const admin = require('firebase-admin');
-const serviceAccount = require('./wanderwisedb-firebase-adminsdk-gz1zt-f9c1384928.json');
+const path = require('path');
+
+const serviceAccountPath = process.env.FIREBASE_ADMIN_SDK_PATH || path.resolve(__dirname, './wanderwisedb-firebase-adminsdk-gz1zt-f9c1384928.json');
+const serviceAccount = require(serviceAccountPath);
 
 const firebaseConfig = {
     apiKey: "AIzaSyBQtbqBpBVc6BZkxTWb3FtBNngiizgdqOQ",
