@@ -1,12 +1,6 @@
 const express = require('express');
 const router = express.Router();
-//const { db, bucket } = require('../dbConn');
-const path = require('path');
-
-
-const dbConnPath = process.env.DB_CONN_PATH || path.resolve(__dirname, '../dbConn');
-
-const { db, bucket } = require(dbConnPath);
+const { db, bucket } = require('../dbConn');
 
 router.get('/getAll', async (req, res) => {
     try {

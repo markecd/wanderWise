@@ -1,15 +1,10 @@
 const express = require('express');
 const router = express.Router();
-//const { db, bucket } = require('../dbConn')
+const { db, bucket } = require('../dbConn')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const path = require('path');
 const secretKey = 'secret-key'; //TO DO enviornment variable
 const saltRounds = 10;
-
-const dbConnPath = process.env.DB_CONN_PATH || path.resolve(__dirname, '../dbConn');
-
-const { db, bucket } = require(dbConnPath);
 
 router.get('/getAll', async (req, res) => {
     try {
