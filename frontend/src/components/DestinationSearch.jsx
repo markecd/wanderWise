@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../assets/styles/DestinationSearch.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { apiUrl } from '../config';
 
 
 
@@ -45,7 +46,7 @@ const DestinationSearch = () => {
 
     const handleOnClick = async (destination) => {
         setLoading(true);
-        const response = await fetch(`http://localhost:6500/cohere/getGeneratedPlan?destinationName=${destination}`)
+        const response = await fetch(`${apiUrl}/cohere/getGeneratedPlan?destinationName=${destination}`)
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -73,7 +74,7 @@ const DestinationSearch = () => {
         savedPlan.date_from = formattedDate;
         savedPlan.date_to = formattedDate;
 
-        const response2 = await fetch(`http://localhost:6500/destinacija/getDestinationIdByName?destinationName=${destination}`, {
+        const response2 = await fetch(`${apiUrl}/destinacija/getDestinationIdByName?destinationName=${destination}`, {
             credentials: 'include'
         })
         if (!response2.ok) {
@@ -83,7 +84,7 @@ const DestinationSearch = () => {
 
         savedPlan.destionationid = destinationId;
 
-        const response3 = await fetch(`http://localhost:6500/user/getUserIdAuth`, {
+        const response3 = await fetch(`${apiUrl}/user/getUserIdAuth`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -96,7 +97,7 @@ const DestinationSearch = () => {
 
         savedPlan.userid = userId.concat("", "BOT");
 
-        const response4 = await fetch("http://localhost:6500/nacrt/createGeneratedSavedPlan", {
+        const response4 = await fetch(`${apiUrl}/nacrt/createGeneratedSavedPlan`, {
             method: 'POST',
             credentials: 'include',
             headers: {

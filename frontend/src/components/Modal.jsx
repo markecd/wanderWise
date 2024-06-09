@@ -3,13 +3,14 @@ import Modal from 'react-modal';
 import '../assets/styles/ModalForm.css';
 import { toast } from 'react-toastify'; 
 import AutocompleteInput from './AutocompleteInput';
+import { apiUrl } from '../config';
 
 
 Modal.setAppElement('#root');
 
 async function createPlan(planData) {
     try {
-        const response = await fetch('http://localhost:6500/nacrt/createPlan', {
+        const response = await fetch(`${apiUrl}/nacrt/createPlan`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +82,7 @@ function ModalForm({ id, isOpen, onRequestClose }) {
     useEffect(() => {
         const fetchUserIdAndUpdateFormData = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/user/getUserIdAuth`, {
+                const response = await fetch(`${apiUrl}/user/getUserIdAuth`, {
                     method: 'GET',
                     credentials: 'include'
                 });

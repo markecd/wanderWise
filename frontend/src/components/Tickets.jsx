@@ -4,6 +4,8 @@ import '../assets/styles/ModalForm.css';
 import '../assets/styles/Tickets.css';
 import { Link, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
+import { apiUrl } from '../config';
+
 
 function Tickets({ dateFrom, dateTo, destinationId }) {
 
@@ -14,7 +16,7 @@ function Tickets({ dateFrom, dateTo, destinationId }) {
     useEffect(() => {
         async function fetchDestination() {
 
-            const response = await fetch(`http://localhost:6500/destinacija/getDestinationById?destinationId=${destinationId}`, {
+            const response = await fetch(`${apiUrl}/destinacija/getDestinationById?destinationId=${destinationId}`, {
                 credentials: 'include'
             });
 
@@ -29,7 +31,7 @@ function Tickets({ dateFrom, dateTo, destinationId }) {
                     const longitude = position.coords.longitude;
 
                     try {
-                        const response = await fetch('http://localhost:6500/nacrt/dobiLokacijo', {
+                        const response = await fetch(`${apiUrl}/nacrt/dobiLokacijo`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json'

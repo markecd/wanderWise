@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import '../assets/styles/Plans.css';
 import { useParams, useNavigate } from "react-router-dom";
+import { apiUrl } from '../config';
+
 
 function Plans({ id, factor }) {
 
@@ -13,11 +15,11 @@ function Plans({ id, factor }) {
             try {
                 let response;
                 if(factor == "destination"){
-                    response = await fetch(`http://localhost:6500/nacrt/getNacrti?id=${id}`, {
+                    response = await fetch(`${apiUrl}/nacrt/getNacrti?id=${id}`, {
 						credentials: 'include'
 					});
                 } else{
-                    response = await fetch(`http://localhost:6500/nacrt/getNacrtiByUser?id=${id}`, {
+                    response = await fetch(`${apiUrl}/nacrt/getNacrtiByUser?id=${id}`, {
 						credentials: 'include'
 					});
                 }

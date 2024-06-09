@@ -7,6 +7,7 @@ import Map from "../components/Map";
 import Participants from "../components/Participants";
 import Tickets from "../components/Tickets";
 import '../assets/styles/Plan.css';
+import { apiUrl } from '../config';
 
 
 function SavedPlan() {
@@ -21,7 +22,7 @@ function SavedPlan() {
     useEffect(() => {
         const fetchPlan = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/nacrt/getSavedPlanById?planId=${id}`, {
+                const response = await fetch(`${apiUrl}/nacrt/getSavedPlanById?planId=${id}`, {
                     credentials: 'include'
                 });
                 if (!response.ok) {
@@ -53,7 +54,7 @@ function SavedPlan() {
                 setPlan(novObj);
                 const modifiedString = planData.userid.replace(/BOT$/, "");
 
-                const response2 = await fetch(`http://localhost:6500/user/getUserData?userId=${modifiedString}`)
+                const response2 = await fetch(`${apiUrl}/user/getUserData?userId=${modifiedString}`)
                 if (!response2.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }

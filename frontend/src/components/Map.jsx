@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import polyline from '@mapbox/polyline';
+import { apiUrl } from '../config';
+
 
 
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
@@ -27,7 +29,7 @@ const Map = ({ locationData }) => {
                 }
                 const startString = locationData.start.latitude.toString() + ',' + locationData.start.longitude.toString();
                 const endString = locationData.end.latitude.toString() + ',' + locationData.end.longitude.toString();
-                const response = await fetch(`http://localhost:6500/nacrt/mapData?start=${startString}&end=${endString}&intermediate=${locationData.intermediate}`, {
+                const response = await fetch(`${apiUrl}/nacrt/mapData?start=${startString}&end=${endString}&intermediate=${locationData.intermediate}`, {
 					credentials: 'include'
 				});
                 if (!response.ok) {

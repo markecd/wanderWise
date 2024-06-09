@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '../config';
+
 
 
 
@@ -20,12 +22,12 @@ function Destination({filterCriteria, searchCriteria}) {
                 let response;
 
                 if(!searchCriteria && filterCriteria.continent.length === 0 && filterCriteria['price-range'] === "350" && filterCriteria.climate.length === 0){
-                    response = await fetch ('http://localhost:6500/destinacija/getAll', {
+                    response = await fetch (`${apiUrl}/destinacija/getAll`, {
 						credentials: 'include'
 					});
                 }
                 else{
-                    response = await fetch(`http://localhost:6500/destinacija/getFiltered?${query}`, {
+                    response = await fetch(`${apiUrl}/destinacija/getFiltered?${query}`, {
 						credentials: 'include'
 					});
                 }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import '../assets/styles/Plans.css';
 import { useParams, useNavigate } from "react-router-dom";
+import { apiUrl } from '../config';
+
 
 function SavedPlans({ id }) {
 
@@ -12,7 +14,7 @@ function SavedPlans({ id }) {
         const fetchPlans = async () => {
             try {
 
-                const response = await fetch(`http://localhost:6500/nacrt/getSavedPlansByUser?id=${id}`, {
+                const response = await fetch(`${apiUrl}/nacrt/getSavedPlansByUser?id=${id}`, {
                     credentials: 'include'
                 });
                 if (!response.ok) {

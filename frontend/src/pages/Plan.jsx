@@ -7,6 +7,8 @@ import Map from "../components/Map";
 import '../assets/styles/Plan.css';
 import { ToastContainer, toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
+import { apiUrl } from '../config';
+
 
 function Plan() {
     const { id } = useParams();
@@ -24,7 +26,7 @@ function Plan() {
     useEffect(() => {
         const fetchPlan = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/nacrt/getPlanById?planId=${id}`, {
+                const response = await fetch(`${apiUrl}/nacrt/getPlanById?planId=${id}`, {
                     credentials: 'include'
                 });
                 if (!response.ok) {
@@ -32,7 +34,7 @@ function Plan() {
                 }
                 const planData = await response.json();
                 setPlan(planData);
-                const response2 = await fetch(`http://localhost:6500/user/getUserData?userId=${planData.userid}`);
+                const response2 = await fetch(`${apiUrl}/user/getUserData?userId=${planData.userid}`);
                 if (!response2.ok) {
                     throw new Error(`HTTP error! status: ${response2.status}`);
                 }
@@ -77,7 +79,7 @@ function Plan() {
 
     const handleSubmit = async () => {
         try {
-            const getUserAuth = await fetch('http://localhost:6500/user/getUserIdAuth', {
+            const getUserAuth = await fetch(`${apiUrl}/user/getUserIdAuth`, {
                 credentials: 'include'
             })
 
@@ -91,7 +93,7 @@ function Plan() {
                 userId: userId
             };
 
-            const response = await fetch('http://localhost:6500/nacrt/createSavedPlan', {
+            const response = await fetch(`${apiUrl}/nacrt/createSavedPlan`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

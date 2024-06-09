@@ -1,6 +1,8 @@
 import { Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { apiUrl } from '../config';
+
 
 const RequireAuth = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -8,7 +10,7 @@ const RequireAuth = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                await axios.get('http://localhost:6500/auth/check', { withCredentials: true });
+                await axios.get(`${apiUrl}/auth/check`, { withCredentials: true });
                 setIsAuthenticated(true);
             } catch (error) {
                 setIsAuthenticated(false);

@@ -1,6 +1,8 @@
 import '../assets/styles/Forum.css';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../config';
+
 
 function Forum({ planId }) {
     const [buttonClicked, setButtonClicked] = useState(false);
@@ -12,7 +14,7 @@ function Forum({ planId }) {
 
     async function createComment(commentData) {
         try {
-            const response = await fetch(`http://localhost:6500/nacrt/createComment?planId=${planId}`, {
+            const response = await fetch(`${apiUrl}/nacrt/createComment?planId=${planId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -39,7 +41,7 @@ function Forum({ planId }) {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const responseUserId = await fetch(`http://localhost:6500/user/getUserIdAuth`, {
+                const responseUserId = await fetch(`${apiUrl}/user/getUserIdAuth`, {
                     method: 'GET',
                     credentials: 'include'
                 });
@@ -55,7 +57,7 @@ function Forum({ planId }) {
 
         const fetchComments = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/nacrt/getComments?planId=${planId}`, {
+                const response = await fetch(`${apiUrl}/nacrt/getComments?planId=${planId}`, {
                     method: 'GET',
                     credentials: 'include'
                 });
@@ -68,7 +70,7 @@ function Forum({ planId }) {
         
             
                 const commentsWithUsernames = await Promise.all(comments.map(async (comment) => {
-                    const userResponse = await fetch(`http://localhost:6500/user/getUserData?userId=${comment.userid}`, {
+                    const userResponse = await fetch(`${apiUrl}/user/getUserData?userId=${comment.userid}`, {
                         method: 'GET',
                         credentials: 'include'
                     });
@@ -127,7 +129,7 @@ function Forum({ planId }) {
             else {
                 console.log("CommentId je:" + commentId);
             }
-            const response = await fetch(`http://localhost:6500/nacrt/likeComment?commentId=${commentId}`, {
+            const response = await fetch(`${apiUrl}/nacrt/likeComment?commentId=${commentId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

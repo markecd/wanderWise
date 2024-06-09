@@ -3,6 +3,8 @@ import '../assets/styles/Register.css';
 import { useNavigate } from 'react-router-dom';
 import{ ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { apiUrl } from '../config';
+
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -126,7 +128,7 @@ function Register() {
 }
 
 async function registerUser(userData) {
-  fetch('http://localhost:6500/user/registerUser', {
+  fetch(`${apiUrl}/user/registerUser`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -154,7 +156,7 @@ async function checkUsername(username) {
 
     let usernameExists;
 
-    await fetch('http://localhost:6500/user/usernameExists', {
+    await fetch(`${apiUrl}/user/usernameExists`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -5,6 +5,7 @@ import SavedPlans from "../components/SavedPlans";
 import { React, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import '../assets/styles/UserPage.css';
+import { apiUrl } from '../config';
 
 
 function UserPage() {
@@ -41,7 +42,7 @@ function UserPage() {
 
 	const handleSaveBio = async () => {
 		try {
-			const response = await fetch(`http://localhost:6500/user/updateBio?userId=${id}`, {
+			const response = await fetch(`${apiUrl}/user/updateBio?userId=${id}`, {
 			  method: 'PUT',
 			  body: JSON.stringify({ bio: newBio }),
 			  headers: {
@@ -65,7 +66,7 @@ function UserPage() {
     const handleFollow = async () => {
         try {
             const method = isFollowing ? 'DELETE' : 'POST';
-            const response = await fetch(`http://localhost:6500/user/followUser?userId=${id}`, {
+            const response = await fetch(`${apiUrl}/user/followUser?userId=${id}`, {
                 method: method,
                 credentials: 'include'
             });
@@ -84,7 +85,7 @@ function UserPage() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/user/getUserData?userId=${id}`);
+                const response = await fetch(`${apiUrl}/user/getUserData?userId=${id}`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -93,7 +94,7 @@ function UserPage() {
                 setUser(userData);
 
 
-                const response2 = await fetch(`http://localhost:6500/user/getUserIdAuth`, {
+                const response2 = await fetch(`${apiUrl}/user/getUserIdAuth`, {
                     method: 'GET',
                     credentials: 'include'
                 });
@@ -107,7 +108,7 @@ function UserPage() {
                 } else{
                     setOwnPage(false)
 
-                    const response3 = await fetch(`http://localhost:6500/user/isFollowing?userId=${id}`, {
+                    const response3 = await fetch(`${apiUrl}/user/isFollowing?userId=${id}`, {
                         method: 'GET',
                         credentials: 'include'
                     });

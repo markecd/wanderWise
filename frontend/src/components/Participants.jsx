@@ -4,6 +4,8 @@ import '../assets/styles/ModalForm.css';
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { apiUrl } from '../config';
+
 
 function Participants({ participants, planId }) {
 
@@ -20,7 +22,7 @@ function Participants({ participants, planId }) {
                     participants: participants
                 };
 
-                let response = await fetch(`http://localhost:6500/nacrt/getParticipantsData`, {
+                let response = await fetch(`${apiUrl}/nacrt/getParticipantsData`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -47,7 +49,7 @@ function Participants({ participants, planId }) {
 
     const handleClick = async (userId) => {
         try {
-            const response = await fetch(`http://localhost:6500/nacrt/removeParticipant?userId=${userId}&planId=${planId}`, {
+            const response = await fetch(`${apiUrl}/nacrt/removeParticipant?userId=${userId}&planId=${planId}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -79,7 +81,7 @@ function Participants({ participants, planId }) {
             participants: participantsArray,
             added_username: newParticipant
         }
-        const response = await fetch(`http://localhost:6500/nacrt/addParticipantToPlan`, {
+        const response = await fetch(`${apiUrl}/nacrt/addParticipantToPlan`, {
             method: 'POST',
             credentials: 'include',
             headers: {

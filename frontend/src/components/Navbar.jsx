@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../assets/styles/Navbar.css';
 import { React, useEffect, useState } from "react";
 import SearchBarNav from './SearchBarNav';
+import { apiUrl } from '../config';
 
 
 function Navbar() {
@@ -13,7 +14,7 @@ function Navbar() {
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const response = await fetch(`http://localhost:6500/user/getUserIdAuth`, {
+                const response = await fetch(`${apiUrl}/user/getUserIdAuth`, {
                     method: 'GET',
                     credentials: 'include'
                 });
@@ -32,7 +33,7 @@ function Navbar() {
 	
 	const handleLogout = async () => {
 		try {
-			const response = await fetch(`http://localhost:6500/user/logoutUser`, {
+			const response = await fetch(`${apiUrl}/user/logoutUser`, {
 				method: 'POST',
 				credentials: 'include'
 			});
