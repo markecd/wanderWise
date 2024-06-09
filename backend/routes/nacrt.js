@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { db, bucket } = require('../dbConn')
+//const { db, bucket } = require('../dbConn')
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
@@ -13,6 +13,9 @@ const { exec } = require('child_process');
 const fs = require('fs').promises;
 const nodemailer = require('nodemailer');
 
+const dbConnPath = process.env.DB_CONN_PATH || path.resolve(__dirname, '../dbConn');
+
+const { db, bucket } = require(dbConnPath);
 
 
 router.get('/getNacrti', async (req, res) => {
