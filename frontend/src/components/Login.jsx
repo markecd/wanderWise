@@ -3,6 +3,7 @@ import '../assets/styles/Register.css';
 import { useNavigate } from 'react-router-dom';
 import{ ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { apiUrl } from '../config';
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -73,7 +74,7 @@ function Login() {
 }
 
 async function loginUser(userData) {
-    await fetch('http://localhost:6500/user/loginUser', {
+    await fetch(`${apiUrl}/user/loginUser`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
