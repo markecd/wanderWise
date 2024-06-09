@@ -1,2 +1,5 @@
 node_modules
 npm-debug.log
+.env
+backend/wanderwisedb-firebase-adminsdk-gz1zt-f9c1384928.json
+.dbConn

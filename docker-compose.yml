@@ -8,6 +8,9 @@ services:
       - .env
     environment:
       - NODE_ENV=development
+    volumes:
+      - ./backend/dbConn:/usr/src/app/dbConn
+      - ./backend/wanderwisedb-firebase-adminsdk-gz1zt-f9c1384928.json:/usr/src/app/wanderwisedb-firebase-adminsdk-gz1zt-f9c1384928.json
 
   frontend:
     build: ./frontend
