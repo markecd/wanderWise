@@ -444,7 +444,7 @@ router.post('/dobiLokacijo', async (req, res) => {
 
         const countryName = extractCountryName(result);
 
-        const filePath = path.join(__dirname, '../../countriesCapitals.json');
+        const filePath = path.join(__dirname, '../countriesCapitals.json');
         const jsonData = await fs.readFile(filePath, 'utf8');
         const countries = JSON.parse(jsonData);
 
@@ -486,7 +486,7 @@ router.post('/dobiLokacijo', async (req, res) => {
 
 const runPythonScript = (cityName) => {
     return new Promise((resolve, reject) => {
-        const scriptPath = path.join(__dirname, '../../findIATA.py');
+        const scriptPath = path.join(__dirname, '../findIATA.py');
         const quotedCityName = `"${cityName}"`; // Ensure the city name is quoted
         const command = `python "${scriptPath}" ${quotedCityName}`;
         exec(command, (error, stdout, stderr) => {
