@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const secretKey = 'secret-key'; //TO DO enviornment variable
 const saltRounds = 10;
+const isProduction = process.env.NODE_ENV === 'production';
 
 
 router.get('/getAll', async (req, res) => {
@@ -274,7 +275,7 @@ router.post('/loginUser', async (req, res) => {
         const userId = snapshot.docs[0].id;
 
         const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '48h' });
-        res.cookie('auth_token', token, { httpOnly: true, secure: false });
+        res.cookie('auth_token', token, { httpOnly: true, secure: isProduction, sameSite: 'None' });
         res.status(200).json("prijava uspešna");
     }
     catch (error) {
@@ -391,7 +392,7 @@ router.post('/loginUser', async (req, res) => {
 
 
         const token = jwt.sign({ id: userId }, secretKey, { expiresIn: '48h' });
-        res.cookie('auth_token', token, { httpOnly: true, secure: false });
+        res.cookie('auth_token', token, { httpOnly: true, secure: isProduction, sameSite: 'None' });
         res.status(200).json("Login successful!");
     }
     catch (error) {
@@ -401,7 +402,7 @@ router.post('/loginUser', async (req, res) => {
 })
 
 router.post('/logoutUser', (req, res) => {
-	res.clearCookie('auth_token', { httpOnly: true, secure: false});
+	res.clearCookie('auth_token', { httpOnly: true, secure: isProduction, sameSite: 'None' });
 	res.status(200).send("Logout successful.");
 });
 
